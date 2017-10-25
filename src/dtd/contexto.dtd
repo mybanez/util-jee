@@ -1,0 +1,4 @@
+<!ELEMENT contexto (vinculo*)>
+<!ELEMENT vinculo (nome, valor)>
+<!ELEMENT nome (#PCDATA)>
+<!ELEMENT valor (#PCDATA)>

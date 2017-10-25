@@ -1,0 +1,7 @@
+<!ELEMENT cadastros (local?, entity-local?)*>
+<!ELEMENT local (modelo, classe)>
+<!ELEMENT entity-local (modelo, home, ref-jndi)>
+<!ELEMENT modelo (#PCDATA)>
+<!ELEMENT classe (#PCDATA)>
+<!ELEMENT home (#PCDATA)>
+<!ELEMENT ref-jndi (#PCDATA)>
