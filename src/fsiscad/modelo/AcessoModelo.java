@@ -23,7 +23,7 @@ public interface AcessoModelo {
      * AcessoModelo#consultarTodos(fsiscad.modelo.ot.OT,String,Class)
      * consultarTodos(null, modelo, molde)}.
      */
-    Collection<OT> consultarTodos(String modelo, Class molde)
+    Collection<OT> consultarTodos(String modelo, Class<?> molde)
     throws RemoteException, ErroModelo;
     
     /**
@@ -48,7 +48,7 @@ public interface AcessoModelo {
      * @throws RemoteException se ocorrer um erro na invocação remota do método
      * @throws ErroModelo se ocorrer um erro durante o processamento da operação
      */
-    Collection<OT> consultarTodos(OT usuario, String modelo, Class molde)
+    Collection<OT> consultarTodos(OT usuario, String modelo, Class<?> molde)
     throws RemoteException, ErroModelo;
     
     /**
@@ -80,7 +80,7 @@ public interface AcessoModelo {
      * AcessoModelo#consultarPorChavePrimaria(fsiscad.modelo.ot.OT,String,fsiscad.modelo.ot.OT,Class)
      * consultarPorChavePrimaria(null, modelo, chave, molde)}.
      */
-    OT consultarPorChavePrimaria(String modelo, OT chave, Class molde)
+    OT consultarPorChavePrimaria(String modelo, OT chave, Class<?> molde)
     throws RemoteException, ErroModelo;
     
     /**
@@ -124,7 +124,7 @@ public interface AcessoModelo {
      * @throws RemoteException se ocorrer um erro na invocação remota do método
      * @throws ErroModelo se ocorrer um erro durante o processamento da operação
      */
-    OT consultarPorChavePrimaria(OT usuario, String modelo, OT chave, Class molde)
+    OT consultarPorChavePrimaria(OT usuario, String modelo, OT chave, Class<?> molde)
     throws RemoteException, ErroModelo;
     
     /**

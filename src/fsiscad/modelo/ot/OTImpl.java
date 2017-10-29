@@ -1,6 +1,5 @@
 package fsiscad.modelo.ot;
 
-import fsiscad.util.*;
 import fsiscad.beans.*;
 import java.util.*;
 
@@ -80,7 +79,7 @@ public abstract class OTImpl implements OT {
      * @return tipo {@link fsiscad.beans.AcessoPropriedades
      * AcessoPropriedades}
      */
-    public Class getTipoAcessoPropriedades() {
+    public Class<AcessoPropriedades> getTipoAcessoPropriedades() {
         return AcessoPropriedades.class;
     }
     

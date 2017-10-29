@@ -28,14 +28,14 @@ public final class RepositorioConexoes {
     
     private String nomeDS;
     private DataSource ds;
-    private String usuario;
-    private String senha;
     
     private RepositorioConexoes(String nomeDS) {
         this.nomeDS = nomeDS;
     }
     
-    private static Map<String, RepositorioConexoes> getMapaRepositorios() {
+    
+	@SuppressWarnings("unchecked")
+	private static Map<String, RepositorioConexoes> getMapaRepositorios() {
         Contexto ctx = Contexto.getContextoCarregador();
         if (!ctx.itemDefinido(MAPA_REPOSITORIOS_CONEXAO)) {
             try {
@@ -44,7 +44,7 @@ public final class RepositorioConexoes {
                 //ErroVinculoJaDefinido pode ocorrer devido a condições de concorrência
             }
         }
-        return (Map)ctx.buscar(MAPA_REPOSITORIOS_CONEXAO);
+        return (Map<String, RepositorioConexoes>)ctx.buscar(MAPA_REPOSITORIOS_CONEXAO);
     } 
     
     /**

@@ -58,23 +58,23 @@ public final class FabricaOT {
     /**
      * Ver {@link OTTipado#OTTipado(Class) OTTipado(Class)}.
      */
-    public static OT getInstancia(Class tipoAcessoProps) {
-        return getInstancia(new ArrayList(Componentes.getDescritoresPropriedades(tipoAcessoProps).keySet()), tipoAcessoProps);
+    public static OT getInstancia(Class<?> tipoAcessoProps) {
+        return getInstancia(new ArrayList<String>(Componentes.getDescritoresPropriedades(tipoAcessoProps).keySet()), tipoAcessoProps);
     }
     
     /**
      * Ver {@link OTTipado#OTTipado(Collection,Class) OTTipado(Collection,Class)}.
      */
-    public static OT getInstancia(Collection<String> clNomesProps, Class tipoAcessoProps) {
+    public static OT getInstancia(Collection<String> clNomesProps, Class<?> tipoAcessoProps) {
         return getInstancia(Collections.<String>emptyList(), clNomesProps, tipoAcessoProps);
     }
     
     /**
      * Ver {@link OTTipado#OTTipado(Collection,Collection,Class) OTTipado(Collection,Collection,Class)}.
      */
-    public static OT getInstancia(Collection<String> clNomesPropsChave, Collection<String> clNomesProps, Class tipoAcessoProps) {
+    public static OT getInstancia(Collection<String> clNomesPropsChave, Collection<String> clNomesProps, Class<?> tipoAcessoProps) {
         ClassLoader carregador = Thread.currentThread().getContextClassLoader();
-        Class[] tipos = { OT.class, tipoAcessoProps };
+        Class<?>[] tipos = { OT.class, tipoAcessoProps };
         OTInvocationHandler ot = new OTInvocationHandler(clNomesPropsChave, clNomesProps, tipoAcessoProps);
         return (OT)Proxy.newProxyInstance(carregador, tipos, ot);
     }
@@ -82,16 +82,16 @@ public final class FabricaOT {
     /**
      * Ver {@link OTTipado#OTTipado(Map,Class) OTTipado(Map,Class)}.
      */
-    public static OT getInstancia(Map<String, Object> mpProps, Class tipoAcessoProps) {
+    public static OT getInstancia(Map<String, Object> mpProps, Class<?> tipoAcessoProps) {
         return getInstancia(Collections.<String>emptyList(), mpProps, tipoAcessoProps);
     }
     
     /**
      * Ver {@link OTTipado#OTTipado(Collection,Map,Class) OTTipado(Collection,Map,Class)}.
      */
-    public static OT getInstancia(Collection<String> clNomesPropsChave, Map<String, Object> mpProps, Class tipoAcessoProps) {
+    public static OT getInstancia(Collection<String> clNomesPropsChave, Map<String, Object> mpProps, Class<?> tipoAcessoProps) {
         ClassLoader carregador = Thread.currentThread().getContextClassLoader();
-        Class[] tipos = { OT.class, tipoAcessoProps };
+        Class<?>[] tipos = { OT.class, tipoAcessoProps };
         OTInvocationHandler ot = new OTInvocationHandler(clNomesPropsChave, mpProps, tipoAcessoProps);
         return (OT)Proxy.newProxyInstance(carregador, tipos, ot);
     }    

@@ -1,7 +1,5 @@
 package fsiscad.contexto;
 
-import fsiscad.util.*;
-
 /**
  * Levantado para indicar que um {@link Contexto contexto} ainda não foi
  * definido.

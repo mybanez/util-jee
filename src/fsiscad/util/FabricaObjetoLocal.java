@@ -20,7 +20,7 @@ public class FabricaObjetoLocal {
      *
      * @return objeto guardado no cache
      */
-    public final static Object getInstanciaEmCache(Map cache, Object chave) {
+    public final static Object getInstanciaEmCache(Map<?, ?> cache, Object chave) {
         if (cache != null) {
             return cache.get(chave);
         }
@@ -39,7 +39,7 @@ public class FabricaObjetoLocal {
      *
      * @return objeto guardado no cache
      */
-    public final static Object getInstanciaEmCache(Map cache, Object chave, String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public final static Object getInstanciaEmCache(Map<Object, Object> cache, Object chave, String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         return getInstanciaEmCache(cache, chave, Thread.currentThread().getContextClassLoader(), classe);
     }
     
@@ -55,7 +55,7 @@ public class FabricaObjetoLocal {
      *
      * @return objeto guardado no cache
      */
-    public final static Object getInstanciaEmCache(Map cache, Object chave, ClassLoader carregador, String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public final static Object getInstanciaEmCache(Map<Object, Object> cache, Object chave, ClassLoader carregador, String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         
         Object obj = cache.get(chave);
         if (obj == null) {

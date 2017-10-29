@@ -32,7 +32,7 @@ public interface OT extends Serializable, AcessoPropriedades {
      *
      * @return tipo da interface de acesso às propriedades
      */
-    Class getTipoAcessoPropriedades();    
+    Class<?> getTipoAcessoPropriedades();    
     
     /**
      * Retorna o valor do

@@ -4,7 +4,6 @@ import fsiscad.util.*;
 import java.util.*;
 import java.beans.*;
 import java.lang.reflect.*;
-import javax.ejb.*;
 
 /**
  * Classe com rotinas para a manipulação de componentes JavaBean via
@@ -22,9 +21,10 @@ public final class Componentes {
      *
      * @return mapa com os nomes e descritores das propriedades do JavaBean
      */
-    public static Map<String, PropertyDescriptor> getDescritoresPropriedades(Class tipo) {
+    @SuppressWarnings("unchecked")
+    public static Map<String, PropertyDescriptor> getDescritoresPropriedades(Class<?> tipo) {
         CacheMetaDados cache = CacheMetaDados.getCacheMetaDados();
-        Map<String, PropertyDescriptor> mpInfoProps = (Map)cache.get(tipo.getName());
+        Map<String, PropertyDescriptor> mpInfoProps = (Map<String, PropertyDescriptor>)cache.get(tipo.getName());
         if (mpInfoProps == null) {
             synchronized (cache) {
                 try {
@@ -51,7 +51,7 @@ public final class Componentes {
      * @param bean JavaBean cujas propriedades serão mapeadas
      * @return mapa com os nomes e valores das propriedades do JavaBean
      */
-    public static Map<String, Object> getValoresPropriedades(Class tipo, Object bean) {
+    public static Map<String, Object> getValoresPropriedades(Class<?> tipo, Object bean) {
         return getValoresPropriedades(tipo, bean, true);
     }
     
@@ -83,8 +83,8 @@ public final class Componentes {
      *        com o tipo do JavaBean
      * @return mapa com os nomes e valores das propriedades do JavaBean
      */
-    public static Map<String, Object> getValoresPropriedades(Class tipo, Object bean, boolean tipoCompativel) {
-        Class tipoBean = bean.getClass();
+    public static Map<String, Object> getValoresPropriedades(Class<?> tipo, Object bean, boolean tipoCompativel) {
+        Class<? extends Object> tipoBean = bean.getClass();
         if (tipoCompativel && !tipo.isAssignableFrom(tipoBean)) {
             throw new ErroExecucao("Bean não possui tipo compatível com '"+tipo+"': "+tipoBean);
         }

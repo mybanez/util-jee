@@ -33,12 +33,12 @@ public abstract class CadastroImpl implements Cadastro {
      *
      * @return coleção com os valores das propriedades chave
      */
-    protected final static Collection getValoresChaveOT(OT ot) {
+    protected final static Collection<Object> getValoresChaveOT(OT ot) {
         Collection<String> clNomesPropsChave = ot.getNomesPropriedadesChave();
         if ((clNomesPropsChave == null) || (clNomesPropsChave.size() == 0)) {
             throw new ErroExecucao("Chave primária do ot indefinida");
         }
-        Collection clValsChave = new ArrayList();
+        Collection<Object> clValsChave = new ArrayList<Object>();
         boolean valorNulo = false;
         int cont = 0;
         for(String nome : clNomesPropsChave) {

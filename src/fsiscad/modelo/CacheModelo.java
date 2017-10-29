@@ -4,12 +4,12 @@ import fsiscad.util.*;
 
 /**
  * Cache de objetos da camada dos modelos. O cache é mantido no contexto 
- * da aplicação J2EE, vinculado ao nome desta classe. É garantida  a existência 
+ * da aplicação J2EE, vinculado ao nome desta classe. É garantida a existência 
  * de <b>um único cache por <i>class loader</i></b>.
  * 
  * @see fsiscad.contexto.Contexto
  */
-public class CacheModelo extends Cache<String, Object> {
+public class CacheModelo extends Cache<Object, Object> {
     /**
      * Retorna o cache de objetos da camada dos modelos.
      *

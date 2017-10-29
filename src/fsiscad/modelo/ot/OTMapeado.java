@@ -40,7 +40,7 @@ public class OTMapeado extends OTImpl {
      * @param mpProps nomes e valores das propriedades
      */
     public OTMapeado(Map<String, Object> mpProps) {
-        super(new ArrayList(mpProps.keySet()));
+        super(new ArrayList<String>(mpProps.keySet()));
         set(mpProps);                
     }
     
@@ -53,7 +53,7 @@ public class OTMapeado extends OTImpl {
      * @param mpProps nomes e valores das propriedades
      */
     public OTMapeado(Collection<String> clNomesPropsChave, Map<String, Object> mpProps) {
-        super(clNomesPropsChave, new ArrayList(mpProps.keySet()));
+        super(clNomesPropsChave, new ArrayList<String>(mpProps.keySet()));
         set(mpProps);                
     }
     

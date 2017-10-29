@@ -59,10 +59,7 @@ public final class MapaCadastros extends HashMap<String, InfoCadastro> {
                         String tipo = infoModelo.item(1).getFirstChild().getNodeValue();
                         put(modelo, new InfoCadastroLocal(modelo, tipo));
                     } else {
-                        String modelo = infoModelo.item(0).getFirstChild().getNodeValue();
-                        String home = infoModelo.item(1).getFirstChild().getNodeValue();
-                        String nomeJNDI = infoModelo.item(2).getFirstChild().getNodeValue();
-                        put(modelo, new InfoCadastroEntityLocal(modelo, home, nomeJNDI));
+                        throw new ErroExecucao("Tipo de cadastro não suportado: "+cadastro.getNodeName());
                     }
                 }
             }

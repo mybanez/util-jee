@@ -22,7 +22,7 @@ public abstract class Cache<TipoChave, TipoValor> extends HashMap<TipoChave, Tip
      *
      * @return cache mantido no contexto da aplicação
      */
-    public final static Cache getCache(String tipo) {
+    public final static Cache<?, ?> getCache(String tipo) {
         Contexto ctx = Contexto.getContextoCarregador();
         if (!ctx.itemDefinido(tipo)) {
             try {
@@ -33,7 +33,7 @@ public abstract class Cache<TipoChave, TipoValor> extends HashMap<TipoChave, Tip
                 throw new ErroExecucao("Erro instanciando cache: "+tipo, e);
             }
         }
-        return (Cache)ctx.buscar(tipo);
+        return (Cache<?, ?>)ctx.buscar(tipo);
     }
 }
 

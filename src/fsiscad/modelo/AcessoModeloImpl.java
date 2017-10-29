@@ -7,7 +7,7 @@ import java.util.*;
  * Suporte para a implementação das classes de acesso ao modelo.
  */
 public abstract class AcessoModeloImpl implements AcessoModelo {
-    public Collection<OT> consultarTodos(String modelo, Class molde)
+    public Collection<OT> consultarTodos(String modelo, Class<?> molde)
     throws ErroModelo {
         return consultarTodos(null, modelo, molde);
     }
@@ -17,7 +17,7 @@ public abstract class AcessoModeloImpl implements AcessoModelo {
         return consultarTodos(null, modelo, molde);
     }
     
-    public Collection<OT> consultarTodos(OT usuario, String modelo, Class molde)
+    public Collection<OT> consultarTodos(OT usuario, String modelo, Class<?> molde)
     throws ErroModelo {
         return consultarTodos(usuario, modelo, FabricaOT.getInstancia(molde));
     }
@@ -30,7 +30,7 @@ public abstract class AcessoModeloImpl implements AcessoModelo {
         return consultarPorChavePrimaria(null, modelo, chave);
     }
 
-    public OT consultarPorChavePrimaria(String modelo, OT chave, Class molde)
+    public OT consultarPorChavePrimaria(String modelo, OT chave, Class<?> molde)
     throws ErroModelo {
         return consultarPorChavePrimaria(null, modelo, chave, molde);
     }
@@ -45,7 +45,7 @@ public abstract class AcessoModeloImpl implements AcessoModelo {
         return consultarPorChavePrimaria(usuario, modelo, chave, chave);
     }
 
-    public OT consultarPorChavePrimaria(OT usuario, String modelo, OT chave, Class molde)
+    public OT consultarPorChavePrimaria(OT usuario, String modelo, OT chave, Class<?> molde)
     throws ErroModelo {
         return consultarPorChavePrimaria(usuario, modelo, chave, FabricaOT.getInstancia(molde));
     }

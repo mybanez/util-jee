@@ -19,15 +19,15 @@ import java.util.*;
  * @see FabricaOT
  */
 public abstract class OTTipado extends OTImpl {
-    private Class tipoAcessoProps;
+    private Class<AcessoPropriedades> tipoAcessoProps;
     
     /**
      * Extrai os nomes das propriedades do ot a partir da interface de acesso 
      * <tt>tipoAcessoProps</tt>.
      * Ver {@link OTImpl#OTImpl(Collection) OTImpl(Collection)}.
      */
-    public OTTipado(Class tipoAcessoProps) {
-        super(new ArrayList(Componentes.getDescritoresPropriedades(tipoAcessoProps).keySet()));
+    public OTTipado(Class<AcessoPropriedades> tipoAcessoProps) {
+        super(new ArrayList<String>(Componentes.getDescritoresPropriedades(tipoAcessoProps).keySet()));
         setTipoAcessoPropriedades(tipoAcessoProps);
     }
     
@@ -36,7 +36,7 @@ public abstract class OTTipado extends OTImpl {
      * <tt>tipoAcessoProps</tt>.
      * Ver {@link OTImpl#OTImpl(Collection,Collection) OTImpl(Collection,Collection)}.
      */
-    public OTTipado(Collection<String> clNomesProps, Class tipoAcessoProps) {
+    public OTTipado(Collection<String> clNomesProps, Class<AcessoPropriedades> tipoAcessoProps) {
         super(clNomesProps);
         setTipoAcessoPropriedades(tipoAcessoProps);        
     }
@@ -44,7 +44,7 @@ public abstract class OTTipado extends OTImpl {
     /**
      * Ver {@link OTImpl#OTImpl(Collection,Collection) OTImpl(Collection,Collection)}.
      */
-    public OTTipado(Collection<String> clNomesPropsChave, Collection<String> clNomesProps, Class tipoAcessoProps) {
+    public OTTipado(Collection<String> clNomesPropsChave, Collection<String> clNomesProps, Class<AcessoPropriedades> tipoAcessoProps) {
         super(clNomesPropsChave, clNomesProps);
         setTipoAcessoPropriedades(tipoAcessoProps);        
     }
@@ -56,8 +56,8 @@ public abstract class OTTipado extends OTImpl {
      * @param mpProps nomes e valores das propriedades
      * @param tipoAcessoProps interface de acesso às propriedades
      */
-    public OTTipado(Map<String, Object> mpProps, Class tipoAcessoProps) {
-        super(new ArrayList(mpProps.keySet()));
+    public OTTipado(Map<String, Object> mpProps, Class<AcessoPropriedades> tipoAcessoProps) {
+        super(new ArrayList<String>(mpProps.keySet()));
         set(mpProps);        
         setTipoAcessoPropriedades(tipoAcessoProps);        
     }
@@ -72,17 +72,17 @@ public abstract class OTTipado extends OTImpl {
      * @param mpProps nomes e valores das propriedades
      * @param tipoAcessoProps interface de acesso às propriedades
      */
-    public OTTipado(Collection<String> clNomesPropsChave, Map<String, Object> mpProps, Class tipoAcessoProps) {
-        super(clNomesPropsChave, new ArrayList(mpProps.keySet()));
+    public OTTipado(Collection<String> clNomesPropsChave, Map<String, Object> mpProps, Class<AcessoPropriedades> tipoAcessoProps) {
+        super(clNomesPropsChave, new ArrayList<String>(mpProps.keySet()));
         set(mpProps);        
         setTipoAcessoPropriedades(tipoAcessoProps);        
     }
 
-    public final Class getTipoAcessoPropriedades() {
+    public final Class<AcessoPropriedades> getTipoAcessoPropriedades() {
         return tipoAcessoProps;
     }
 
-    public final void setTipoAcessoPropriedades(Class tipoAcessoProps) {
+    public final void setTipoAcessoPropriedades(Class<AcessoPropriedades> tipoAcessoProps) {
         if (!tipoAcessoProps.isAssignableFrom(getClass())) {
             throw new ErroExecucao("OT não implementa interface de acesso: "+tipoAcessoProps.getName());
         }

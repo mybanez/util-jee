@@ -10,22 +10,23 @@ import java.util.*;
  * @see java.lang.reflect.Proxy
  **/
 public class OTInvocationHandler extends OTMapeado implements InvocationHandler {
-    private Class tipoAcessoProps;
+    private Class<?> tipoAcessoProps;
     
-    public OTInvocationHandler(Collection<String> clNomesPropsChave, Collection<String> clNomesProps, Class tipoAcessoProps) {
+    public OTInvocationHandler(Collection<String> clNomesPropsChave, Collection<String> clNomesProps, Class<?> tipoAcessoProps) {
         super(clNomesPropsChave, clNomesProps);
         this.tipoAcessoProps = tipoAcessoProps;
     }
     
-    public OTInvocationHandler(Collection<String> clNomesPropsChave, Map<String, Object> mpProps, Class tipoAcessoProps) {
+    public OTInvocationHandler(Collection<String> clNomesPropsChave, Map<String, Object> mpProps, Class<?> tipoAcessoProps) {
         super(clNomesPropsChave, mpProps);
         this.tipoAcessoProps = tipoAcessoProps;
     }
     
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    @SuppressWarnings("unchecked")
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String nomeMetodo = method.getName();
-        Class[] tiposParams = method.getParameterTypes();
-        Class tipoRetorno = method.getReturnType();
+        Class<?>[] tiposParams = method.getParameterTypes();
+        //Class<?> tipoRetorno = method.getReturnType();
         if (tiposParams.length == 0) {
             if (nomeMetodo.equals("getNomesPropriedadesChave")) {
                 return getNomesPropriedadesChave();
@@ -45,7 +46,7 @@ public class OTInvocationHandler extends OTMapeado implements InvocationHandler 
                 if (String.class.isAssignableFrom(args[0].getClass())) {
                     return get((String)args[0]); //get(String)
                 }
-                return get((Collection)args[0]); //get(Collection)
+                return get((Collection<String>)args[0]); //get(Collection)
             }
             return get(); //get()
         }
@@ -58,7 +59,7 @@ public class OTInvocationHandler extends OTMapeado implements InvocationHandler 
                 set((String)args[0], args[1]); //set(String,Object)
                 return null;
             }
-            set((Map)args[0]); //set(Map)
+            set((Map<String, Object>)args[0]); //set(Map)
             return null;
         }
         throw new UnsupportedOperationException(proxy.getClass()+": "+nomeMetodo);

@@ -1,7 +1,5 @@
 package fsiscad.util;
 
-import java.io.*;
-
 /**
  * Erro ocorrido durante o processamento da <i>framework</i>.
  */
