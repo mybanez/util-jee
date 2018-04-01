@@ -26,9 +26,21 @@ public class OTInvocationHandler extends OTMapeado implements InvocationHandler 
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String nomeMetodo = method.getName();
         Class<?>[] tiposParams = method.getParameterTypes();
-        //Class<?> tipoRetorno = method.getReturnType();
+        Class<?> tipoRetorno = method.getReturnType();
         if (tiposParams.length == 0) {
+            if (nomeMetodo.equals("toString")) {
+                String s = proxy.getClass().toGenericString();
+                Class<?> tipos[] = proxy.getClass().getInterfaces();
+                for (Class<?> t : tipos) {
+                	s += "\n"+t.getTypeName();
+                }
+                s += "\n"+get().toString();
+                return s;
+            }
             if (nomeMetodo.equals("getNomesPropriedadesChave")) {
+                return getNomesPropriedadesChave();
+            }
+        	if (nomeMetodo.equals("getNomesPropriedadesChave")) {
                 return getNomesPropriedadesChave();
             }
             if (nomeMetodo.equals("getNomesPropriedades")) {
@@ -38,7 +50,12 @@ public class OTInvocationHandler extends OTMapeado implements InvocationHandler 
                 return tipoAcessoProps;
             }
         }
-        if (nomeMetodo.startsWith("get")) {
+        if (tiposParams.length == 1) {
+	        if (nomeMetodo.equals("equals")) {
+	            return proxy == args[0];
+	        }        
+        }
+	    if (nomeMetodo.startsWith("get")) {
             if (nomeMetodo.length() > 3) {
                 return get(getNomePropriedade(nomeMetodo)); //getXXX()
             }

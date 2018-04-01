@@ -41,7 +41,7 @@ public class OTMapeado extends OTImpl {
      */
     public OTMapeado(Map<String, Object> mpProps) {
         super(new ArrayList<String>(mpProps.keySet()));
-        set(mpProps);                
+        set(mpProps);   
     }
     
     /**

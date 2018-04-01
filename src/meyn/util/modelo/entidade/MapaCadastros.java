@@ -1,4 +1,4 @@
-package meyn.util.modelo.cadastro;
+package meyn.util.modelo.entidade;
 
 import java.io.*;
 import java.util.*;
@@ -12,9 +12,9 @@ import meyn.util.modelo.*;
 
 /**
  * Mapeamentos dos modelos da aplicação em componentes cadastro. Esta classe é
- * usada por {@link meyn.util.modelo.cadastro.FabricaCadastro FabricaCadastro}
+ * usada por {@link meyn.util.modelo.entidade.FabricaCadastro FabricaCadastro}
  * para carregar os mapeamentos entre os nomes lógicos dos modelos e os
- * componentes do tipo {@link meyn.util.modelo.cadastro.Cadastro Cadastro} que
+ * componentes do tipo {@link meyn.util.modelo.entidade.Cadastro Cadastro} que
  * implementam as funcionalidades básicas de consulta e manutenção dos
  * modelos. O nome do arquivo XML a ser carregado com as informações de
  * mapeamento é buscado no contexto JNDI 'java:comp/env/fsc' usando-se 
@@ -23,11 +23,22 @@ import meyn.util.modelo.*;
  * @see meyn.util.contexto.Contexto
  */
 public final class MapaCadastros extends HashMap<String, InfoCadastro> {
+	protected String getArquivoMapa() {
+		String arquivo;
+		try {
+			Context ctx = new InitialContext();
+			arquivo = (String)ctx.lookup(ChavesModelo.CONTEXTO_JNDI+ChavesModelo.MAPA_CADASTROS);
+		} catch (NamingException e) {
+			arquivo = "cadastros.xml";
+		}
+        return arquivo;
+		
+	}
+	
     public MapaCadastros()
     throws IOException, ParserConfigurationException, SAXException, NamingException {
-        Context ctx = new InitialContext();
-        String arquivo = (String)ctx.lookup(ChavesModelo.CONTEXTO_JNDI+ChavesModelo.MAPA_CADASTROS);
         ClassLoader carregador = Thread.currentThread().getContextClassLoader();
+        String arquivo = getArquivoMapa();
         InputStream in = carregador.getResourceAsStream(arquivo);
         if (in == null) {
             throw new IOException("Arquivo não encontrado: " + arquivo);
@@ -41,7 +52,7 @@ public final class MapaCadastros extends HashMap<String, InfoCadastro> {
             public InputSource resolveEntity(String publicId, String systemId) {
                 if (systemId.endsWith("cadastros.dtd")) {
                     ClassLoader carregador = Thread.currentThread().getContextClassLoader();
-                    InputSource isr =  new InputSource(carregador.getResourceAsStream("dtd/cadastros.dtd"));
+                    InputSource isr =  new InputSource(carregador.getResourceAsStream("meyn/util/dtd/cadastros.dtd"));
                     return isr;
                 }
                 return null;

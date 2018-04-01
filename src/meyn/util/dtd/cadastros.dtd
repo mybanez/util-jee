@@ -1,4 +1,4 @@
-<!ELEMENT cadastros (local?)*>
+<!ELEMENT cadastros (local*)>
 <!ELEMENT local (modelo, classe)>
 <!ELEMENT modelo (#PCDATA)>
 <!ELEMENT classe (#PCDATA)>

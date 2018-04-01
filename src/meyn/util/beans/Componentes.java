@@ -14,6 +14,20 @@ import java.lang.reflect.*;
 public final class Componentes {
     private Componentes() {}
     
+    private static void getDescritoresPropriedades(Class<?> tipo, Map<String, PropertyDescriptor> mpInfoProps) throws IntrospectionException {
+    	PropertyDescriptor clInfoProp[] = Introspector.getBeanInfo(tipo).getPropertyDescriptors();
+        for (int i=0; i<clInfoProp.length; i++) {
+            mpInfoProps.put(clInfoProp[i].getName(), clInfoProp[i]);
+        }	
+    	if (tipo.isInterface()) {
+    		Class<?> itfs[] = tipo.getInterfaces();
+    		for (int i=0; i<itfs.length; i++) {
+    			getDescritoresPropriedades(itfs[i], mpInfoProps);
+            }
+    	}    	
+    }
+
+    
     /**
      * Para as propriedades definidas neste tipo, mapeia os descritores das propriedades
      * deste <i>bean</i>. Cada entrada no mapa retornado associa o nome da propriedade a uma
@@ -30,11 +44,8 @@ public final class Componentes {
         if (mpInfoProps == null) {
             synchronized (cache) {
                 try {
-                    PropertyDescriptor clInfoProp[] = Introspector.getBeanInfo(tipo).getPropertyDescriptors();
                     mpInfoProps = new HashMap<String, PropertyDescriptor>();
-                    for (int i=0; i<clInfoProp.length; i++) {
-                        mpInfoProps.put(clInfoProp[i].getName(), clInfoProp[i]);
-                    }
+                    getDescritoresPropriedades(tipo, mpInfoProps);
                     cache.put("PROPS."+tipo.getName(), mpInfoProps);
                 } catch (IntrospectionException ie) {
                     throw new ErroExecucao("Erro obtendo metadados", ie);

@@ -33,9 +33,9 @@ public abstract class OTTipado extends OTImpl {
     }
     
     /**
-     * Extrai os nomes das propriedades do ot a partir da interface de acesso 
+     * Extrai os nomes das propriedades do ot definidos em <tt>clNomesProps</tt> a partir da interface de acesso 
      * <tt>tipoAcessoProps</tt>.
-     * Ver {@link OTImpl#OTImpl(Collection,Collection) OTImpl(Collection,Collection)}.
+     * Ver {@link OTImpl#OTImpl(Collection) OTImpl(Collection)}.
      */
     public OTTipado(Collection<String> clNomesProps, Class<?> tipoAcessoProps) {
         super(clNomesProps);

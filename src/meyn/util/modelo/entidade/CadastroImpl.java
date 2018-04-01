@@ -1,15 +1,19 @@
-package meyn.util.modelo.cadastro;
+package meyn.util.modelo.entidade;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import meyn.util.*;
-import meyn.util.modelo.ot.*;
+import meyn.util.ErroExecucao;
+import meyn.util.modelo.ot.OT;
 
 /**
  * Suporte para implementações de cadastro.
  */
 public abstract class CadastroImpl implements Cadastro {
-    /**
+    
+    private String modelo;
+    
+	/**
      * Retorna o cadastro associado a este modelo.
      *
      * @param modelo nome lógico do modelo
@@ -59,5 +63,38 @@ public abstract class CadastroImpl implements Cadastro {
             clValsChave.add(valor);
         }
         return clValsChave;
+    }
+    
+    public final void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+    
+    public final String getModelo() {
+        return modelo;
+    }
+    
+    public Collection<? extends OT> consultarTodos(OT usuario, Class<?> molde)
+    throws ErroCadastro {
+    	   throw new UnsupportedOperationException("consultarTodos");
+    }    
+    
+    public OT consultarPorChavePrimaria(OT usuario, OT chave, Class<?> molde)
+    throws ErroCadastro {
+ 	   throw new UnsupportedOperationException("consultarPorChavePrimaria");
+    }
+    
+    public OT incluir(OT usuario, OT ot) 
+    throws ErroCadastro {
+ 	   throw new UnsupportedOperationException("incluir");
+    }
+    
+    public OT alterar(OT usuario, OT ot)
+    throws ErroCadastro {
+  	   throw new UnsupportedOperationException("alterar");
+    }
+    
+    public void excluir(OT usuario, OT ot)
+    throws ErroCadastro {
+   	   throw new UnsupportedOperationException("excluir");
     }
 }

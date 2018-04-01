@@ -1,4 +1,4 @@
-package meyn.util.modelo.cadastro;
+package meyn.util.modelo.entidade;
 
 import meyn.util.*;
 import meyn.util.modelo.*;
@@ -8,7 +8,7 @@ import meyn.util.modelo.*;
  * a partir do nome do modelo associado ao cadastro, sendo carregadas pela 
  * classe {@link MapaCadastros MapaCadastros}. Cada mapeamento vincula o nome lógico 
  * de um modelo ao tipo de um componente que implementa a interface 
- * {@link meyn.util.modelo.cadastro.Cadastro Cadastro}, o qual é responsável pelas 
+ * {@link meyn.util.modelo.entidade.Cadastro Cadastro}, o qual é responsável pelas 
  * funcionalidades de consulta e manutenção do modelo. Duas tecnologias de implementação 
  * de cadastro são suportadas: <i>entity beans</i> e classes Java convencionais 
  * (<i>pattern Data Access Object</i>).

@@ -1,4 +1,4 @@
-package meyn.util.modelo.cadastro;
+package meyn.util.modelo.entidade;
 
 /**
  * Levantado para indicar que uma consulta por chave primária não retornou

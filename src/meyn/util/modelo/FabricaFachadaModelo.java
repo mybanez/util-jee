@@ -14,9 +14,17 @@ import javax.naming.*;
  * 
  * @see meyn.util.contexto.Contexto
  */
-public class FabricaFachadaModelo extends FabricaObjetoModelo {
+public abstract class FabricaFachadaModelo extends FabricaObjetoModelo {
     protected FabricaFachadaModelo() {}
     
+    protected static String getClasseFachada() throws ErroModelo {
+        try {
+			Context ctx = new InitialContext();
+			return (String)ctx.lookup(ChavesModelo.CONTEXTO_JNDI+ChavesModelo.FABRICA_FACHADA);
+		} catch (NamingException e) {
+            throw new ErroModelo("Erro obtendo fábrica da fachada", e);
+		}   	
+    }
     /**
      * Retorna a fábrica da fachada. A instância da fábrica é criada
      * dinamicamente a partir do nome da classe da fábrica, buscado no contexto
@@ -29,16 +37,10 @@ public class FabricaFachadaModelo extends FabricaObjetoModelo {
      */
     public final static FabricaFachadaModelo getFabricaFachadaModelo()
     throws ErroModelo {
-        try {
-            FabricaFachadaModelo fabrica = (FabricaFachadaModelo)getInstanciaEmCache(ChavesModelo.FABRICA_FACHADA);
-            if (fabrica == null) {
-                Context ctx = new InitialContext();
-                String classeFabr = (String)ctx.lookup(ChavesModelo.CONTEXTO_JNDI+ChavesModelo.FABRICA_FACHADA);
-                fabrica = (FabricaFachadaModelo)getInstanciaEmCache(ChavesModelo.FABRICA_FACHADA, classeFabr);
-            }
-            return fabrica;
-        } catch (Exception e) {
-            throw new ErroModelo("Erro obtendo fábrica da fachada", e);
+        FabricaFachadaModelo fabrica = (FabricaFachadaModelo)getInstanciaEmCache(ChavesModelo.FABRICA_FACHADA);
+        if (fabrica == null) {
+            fabrica = (FabricaFachadaModelo)getInstanciaEmCache(ChavesModelo.FABRICA_FACHADA, getClasseFachada());
         }
+        return fabrica;
     }
 }

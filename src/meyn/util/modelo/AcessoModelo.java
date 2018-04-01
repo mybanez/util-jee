@@ -24,7 +24,7 @@ public interface AcessoModelo {
      * AcessoModelo#consultarTodos(meyn.util.modelo.ot.OT,String,Class)
      * consultarTodos(null, modelo, molde)}.
      */
-    Collection<OT> consultarTodos(String modelo, Class<?> molde)
+    Collection<? extends OT> consultarTodos(String modelo, Class<?> molde)
     throws RemoteException, ErroModelo;
     
     /**
@@ -32,7 +32,23 @@ public interface AcessoModelo {
      * AcessoModelo#consultarTodos(meyn.util.modelo.ot.OT,String,meyn.util.modelo.ot.OT)
      * consultarTodos(null, modelo, molde)}.
      */
-    Collection<OT> consultarTodos(String modelo, OT molde)
+    Collection<? extends OT> consultarTodos(String modelo, OT molde)
+    throws RemoteException, ErroModelo;
+    
+    /**
+     * Para este usuário, consulta todos os itens deste modelo. Os ots 
+     * retornados devem adotar este molde. 
+     *
+     * @param usuario usuario logado
+     * @param modelo modelo a ser consultado
+     * @param molde molde para os ots a serem retornados
+     *
+     * @return lista de ots com o resultado da consulta
+     *
+     * @throws RemoteException se ocorrer um erro na invocação remota do método
+     * @throws ErroModelo se ocorrer um erro durante o processamento da operação
+     */
+    Collection<? extends OT> consultarTodos(OT usuario, String modelo, OT molde)
     throws RemoteException, ErroModelo;
     
     /**
@@ -49,23 +65,7 @@ public interface AcessoModelo {
      * @throws RemoteException se ocorrer um erro na invocação remota do método
      * @throws ErroModelo se ocorrer um erro durante o processamento da operação
      */
-    Collection<OT> consultarTodos(OT usuario, String modelo, Class<?> molde)
-    throws RemoteException, ErroModelo;
-    
-    /**
-     * Para este usuário, consulta todos os itens deste modelo. Os ots 
-     * retornados devem adotar este molde. 
-     *
-     * @param usuario usuario logado
-     * @param modelo modelo a ser consultado
-     * @param molde molde para os ots a serem retornados
-     *
-     * @return lista de ots com o resultado da consulta
-     *
-     * @throws RemoteException se ocorrer um erro na invocação remota do método
-     * @throws ErroModelo se ocorrer um erro durante o processamento da operação
-     */
-    Collection<OT> consultarTodos(OT usuario, String modelo, OT molde)
+    Collection<? extends OT> consultarTodos(OT usuario, String modelo, Class<?> molde)
     throws RemoteException, ErroModelo;
     
     /**
@@ -78,18 +78,18 @@ public interface AcessoModelo {
     
     /**
      * Equivalente a {@link
-     * AcessoModelo#consultarPorChavePrimaria(meyn.util.modelo.ot.OT,String,meyn.util.modelo.ot.OT,Class)
-     * consultarPorChavePrimaria(null, modelo, chave, molde)}.
-     */
-    OT consultarPorChavePrimaria(String modelo, OT chave, Class<?> molde)
-    throws RemoteException, ErroModelo;
-    
-    /**
-     * Equivalente a {@link
      * AcessoModelo#consultarPorChavePrimaria(meyn.util.modelo.ot.OT,String,meyn.util.modelo.ot.OT,meyn.util.modelo.ot.OT)
      * consultarPorChavePrimaria(null, modelo, chave, molde)}.
      */
     OT consultarPorChavePrimaria(String modelo, OT chave, OT molde)
+    throws RemoteException, ErroModelo;
+    
+    /**
+     * Equivalente a {@link
+     * AcessoModelo#consultarPorChavePrimaria(meyn.util.modelo.ot.OT,String,meyn.util.modelo.ot.OT,Class)
+     * consultarPorChavePrimaria(null, modelo, chave, molde)}.
+     */
+    OT consultarPorChavePrimaria(String modelo, OT chave, Class<?> molde)
     throws RemoteException, ErroModelo;
     
     /**
@@ -113,6 +113,24 @@ public interface AcessoModelo {
      * Consulta os dados de um item deste modelo a partir desta chave primária.
      * Os nomes das propriedades que compõem a chave primária devem ser obtidos
      * através de uma chamada a <tt>chave.getNomesPropriedadesChave(modelo)</tt>.
+     * Os ots retornados devem adotar este molde.
+     *
+     * @param modelo modelo a ser consultado
+     * @param chave ot contendo a chave de consulta do item
+     * @param molde molde para o ot a ser retornado
+     *
+     * @return ot com o resultado da consulta
+     *
+     * @throws RemoteException se ocorrer um erro na invocação remota do método
+     * @throws ErroModelo se ocorrer um erro durante o processamento da operação
+     */
+    OT consultarPorChavePrimaria(OT usuario, String modelo, OT chave, OT molde)
+    throws RemoteException, ErroModelo;
+    
+    /**
+     * Consulta os dados de um item deste modelo a partir desta chave primária.
+     * Os nomes das propriedades que compõem a chave primária devem ser obtidos
+     * através de uma chamada a <tt>chave.getNomesPropriedadesChave(modelo)</tt>.
      * Os ots retornados devem adotar este tipo como molde. As propriedades de chave 
      * primária não estarão definidas no ot retornado.
      *
@@ -126,24 +144,6 @@ public interface AcessoModelo {
      * @throws ErroModelo se ocorrer um erro durante o processamento da operação
      */
     OT consultarPorChavePrimaria(OT usuario, String modelo, OT chave, Class<?> molde)
-    throws RemoteException, ErroModelo;
-    
-    /**
-     * Consulta os dados de um item deste modelo a partir desta chave primária.
-     * Os nomes das propriedades que compõem a chave primária devem ser obtidos
-     * através de uma chamada a <tt>chave.getNomesPropriedadesChave(modelo)</tt>.
-     * Os ots retornados devem adotar este molde.
-     *
-     * @param modelo modelo a ser consultado
-     * @param chave ot contendo a chave de consulta do item
-     * @param molde molde para o ot a ser retornado
-     *
-     * @return ot com o resultado da consulta
-     *
-     * @throws RemoteException se ocorrer um erro na invocação remota do método
-     * @throws ErroModelo se ocorrer um erro durante o processamento da operação
-     */
-    OT consultarPorChavePrimaria(OT usuario, String modelo, OT chave, OT molde)
     throws RemoteException, ErroModelo;
     
     /**

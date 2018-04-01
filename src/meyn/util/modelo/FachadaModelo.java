@@ -2,7 +2,7 @@ package meyn.util.modelo;
 
 import java.util.*;
 
-import meyn.util.modelo.cadastro.*;
+import meyn.util.modelo.entidade.*;
 import meyn.util.modelo.ot.*;
 
 /**
@@ -22,12 +22,12 @@ public abstract class FachadaModelo extends AcessoModeloImpl {
         return FabricaCadastro.getCadastro(modelo);
     }
     
-    public final Collection<OT> consultarTodos(OT usuario, String modelo, OT molde)
+    public final Collection<? extends OT> consultarTodos(OT usuario, String modelo, Class<?> molde)
     throws ErroModelo {
         return getCadastro(modelo).consultarTodos(usuario, molde);
     }
     
-    public final OT consultarPorChavePrimaria(OT usuario, String modelo, OT chave, OT molde)
+    public final OT consultarPorChavePrimaria(OT usuario, String modelo, OT chave, Class<?> molde)
     throws ErroModelo {
         return getCadastro(modelo).consultarPorChavePrimaria(usuario, chave, molde);
     }

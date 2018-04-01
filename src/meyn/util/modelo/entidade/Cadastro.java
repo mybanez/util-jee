@@ -1,4 +1,4 @@
-package meyn.util.modelo.cadastro;
+package meyn.util.modelo.entidade;
 
 import java.util.*;
 
@@ -38,7 +38,7 @@ public interface Cadastro {
     
     /**
      * Para este usuário, consulta todos os itens deste modelo. Os ots retornados 
-     * devem ser criados a partir este molde.
+     * devem ser criados a partir deste molde.
      * 
      * @param usuario usuario logado
      * @param molde molde para os ots a serem retornados
@@ -48,14 +48,14 @@ public interface Cadastro {
      *
      * @throws ErroCadastro se algum erro ocorreu durante a operação
      */
-    Collection<OT> consultarTodos(OT usuario, OT molde)
+    Collection<? extends OT> consultarTodos(OT usuario, Class<?> molde)
     throws ErroCadastro;
     
     /**
      * Para este usuário, consulta os dados de um item a partir desta chave
      * primária. Os nomes das propriedades que compõem a chave primária devem ser
-     * obtidos através de uma chamada a <tt>chave.getNomesPropriedadesChave(modelo)</tt>. 
-     * Os ots retornados devem ser criados a partir este molde.
+     * obtidos através de uma chamada a <tt>chave.getNomesPropriedadesChave()</tt>. 
+     * Os ots retornados devem ser criados a partir deste molde.
      *
      * @param usuario usuario logado
      * @param chave ot contendo a chave de consulta do item
@@ -65,7 +65,7 @@ public interface Cadastro {
      *
      * @throws ErroCadastro se algum erro ocorreu durante a operação
      */
-    OT consultarPorChavePrimaria(OT usuario, OT chave, OT molde)
+    OT consultarPorChavePrimaria(OT usuario, OT chave, Class<?> molde)
     throws ErroCadastro;
     
    /**

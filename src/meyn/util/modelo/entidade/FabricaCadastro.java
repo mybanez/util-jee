@@ -1,4 +1,4 @@
-package meyn.util.modelo.cadastro;
+package meyn.util.modelo.entidade;
 
 import meyn.util.*;
 import meyn.util.modelo.*;
