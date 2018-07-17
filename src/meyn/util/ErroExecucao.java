@@ -3,6 +3,7 @@ package meyn.util;
 /**
  * Erro de execução ocorrido durante o processamento da <i>framework</i>.
  */
+@SuppressWarnings("serial")
 public class ErroExecucao extends RuntimeException {
     /**
      * Cria uma instancia de erro com esta mensagem.

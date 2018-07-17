@@ -11,16 +11,15 @@ import meyn.util.beans.*;
  *
  * @see FabricaOT
  */
+@SuppressWarnings("serial")
 public abstract class OTImpl implements OT {
-    private Long idVersao;
-    private Collection<String> clNomesPropsChave;
     private Collection<String> clNomesProps;
     
     /**
      * Cria um objeto de transferência.
      */
     public OTImpl() {
-        this(Collections.<String>emptyList(), Collections.<String>emptyList());
+        this(Collections.<String>emptyList());
     }
     
     /**
@@ -29,36 +28,12 @@ public abstract class OTImpl implements OT {
      * @param clNomesProps nomes das propriedades
      */
     public OTImpl(Collection<String> clNomesProps) {
-        this(Collections.<String>emptyList(), clNomesProps);
-    }
-    
-    /**
-     * Cria um objeto de transferência com os propriedades chave definidas na 
-     * primeira coleção e com as propriedades definidas na segunda coleção. 
-     *
-     * @param clNomesPropsChave nomes das propriedades que compõem a
-     *        chave primária
-     * @param clNomesProps nomes das propriedades
-     */
-    public OTImpl(Collection<String> clNomesPropsChave, Collection<String> clNomesProps) {
-        this.clNomesPropsChave = clNomesPropsChave;
         this.clNomesProps = clNomesProps;        
     }
     
-    public final Collection<String> getNomesPropriedadesChave() {
-        return clNomesPropsChave;
-    }
-    
     /**
-     * Define os nomes das propriedades do ot que compõem a chave primária.
-     *
-     * @param clNomesPropsChave coleção com os nomes das propriedades do ot que
-     *        compõem a chave primária
+     * Retorna os nomes das propriedades do ot.
      */
-    public final void setNomesPropriedadesChave(Collection<String> clNomesPropsChave) {
-        this.clNomesPropsChave = clNomesPropsChave;
-    }
-    
     public final Collection<String> getNomesPropriedades() {
         return clNomesProps;
     }
@@ -83,15 +58,7 @@ public abstract class OTImpl implements OT {
     public Class<?> getTipoAcessoPropriedades() {
         return AcessoPropriedades.class;
     }
-    
-    public final long getIdVersao() {
-        return idVersao;
-    }
-    
-    public final void setIdVersao(long idVersao) {
-        this.idVersao = idVersao;
-    }
-    
+
     /*       SUPORTE PARA MANIPULAÇÃO DE ATRIBUTOS         */
     
     /**

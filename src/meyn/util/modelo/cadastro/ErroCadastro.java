@@ -1,4 +1,4 @@
-package meyn.util.modelo.entidade;
+package meyn.util.modelo.cadastro;
 
 import meyn.util.modelo.*;
 
@@ -6,6 +6,7 @@ import meyn.util.modelo.*;
  * Levantado para indicar a ocorrência de um erro durante uma operação de
  * cadastro.
  */
+@SuppressWarnings("serial")
 public class ErroCadastro extends ErroModelo {
     public ErroCadastro(String msg) {
         super(msg);

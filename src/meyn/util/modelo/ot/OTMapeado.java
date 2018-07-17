@@ -11,6 +11,7 @@ import java.util.*;
  *
  * @see FabricaOT
  */
+@SuppressWarnings("serial")
 public class OTMapeado extends OTImpl {
     private Map<String, Object> mpProps = new HashMap<String, Object>();
     
@@ -27,13 +28,6 @@ public class OTMapeado extends OTImpl {
     }
     
     /**
-     * Ver {@link OTImpl#OTImpl(Collection,Collection) OTImpl(Collection,Collection)}.
-     */
-    public OTMapeado(Collection<String> clNomesPropsChave, Collection<String> clNomesProps) {
-        super(clNomesPropsChave, clNomesProps);
-    }
-    
-    /**
      * Cria um objeto de transferência com as propriedades e valores 
      * definidos neste mapa.
      *
@@ -44,29 +38,16 @@ public class OTMapeado extends OTImpl {
         set(mpProps);   
     }
     
-    /**
-     * Cria um objeto de transferência com os propriedades chave definidas nesta 
-     * coleção e com as propriedades e valores definidos neste mapa.
-     *
-     * @param clNomesPropsChave nomes das propriedades que compõem a
-     *        chave primária
-     * @param mpProps nomes e valores das propriedades
-     */
-    public OTMapeado(Collection<String> clNomesPropsChave, Map<String, Object> mpProps) {
-        super(clNomesPropsChave, new ArrayList<String>(mpProps.keySet()));
-        set(mpProps);                
-    }
-    
     /*       SUPORTE PARA MANIPULAÇÃO DE ATRIBUTOS         */
     
-    public final static Object get(OT ot, String nome) {
+    public final static Object get(OTMapeado ot, String nome) {
         validarPropriedade(ot, nome);
-        return ((OTMapeado)ot).mpProps.get(nome);
+        return ot.mpProps.get(nome);
     }
     
-    public final static void set(OT ot, String nome, Object valor) {
+    public final static void set(OTMapeado ot, String nome, Object valor) {
         validarPropriedade(ot, nome);
-        ((OTMapeado)ot).mpProps.put(nome, valor);
+        ot.mpProps.put(nome, valor);
     }
     
     /*          INTERFACE AcessoPropriedades           */

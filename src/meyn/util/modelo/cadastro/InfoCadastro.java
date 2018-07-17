@@ -1,7 +1,7 @@
-package meyn.util.modelo.entidade;
+package meyn.util.modelo.cadastro;
 
-import meyn.util.*;
-import meyn.util.modelo.*;
+import meyn.util.Erro;
+import meyn.util.modelo.ot.OT;
 
 /**
  * Guarda informações sobre uma implementação de cadastro. As informações ficam acessíveis 
@@ -9,14 +9,9 @@ import meyn.util.modelo.*;
  * classe {@link MapaCadastros MapaCadastros}. Cada mapeamento vincula o nome lógico 
  * de um modelo ao tipo de um componente que implementa a interface 
  * {@link meyn.util.modelo.entidade.Cadastro Cadastro}, o qual é responsável pelas 
- * funcionalidades de consulta e manutenção do modelo. Duas tecnologias de implementação 
- * de cadastro são suportadas: <i>entity beans</i> e classes Java convencionais 
- * (<i>pattern Data Access Object</i>).
- *
- * @see CadastroLocal
- * @see CadastroEntityLocal
+ * funcionalidades de consulta e manutenção do modelo. 
  */
-public abstract class InfoCadastro {
+class InfoCadastro {
     private String modelo;
     private String tipo;
     
@@ -26,26 +21,17 @@ public abstract class InfoCadastro {
      * @param modelo nome lógico do modelo
      * @param tipo tipo do cadastro
      */
-    public InfoCadastro(String modelo, String tipo) {
+    InfoCadastro(String modelo, String tipo) {
         this.modelo = modelo;
         this.tipo = tipo;
     }
-    
-    /**
-     * Retorna uma instância da fábrica do cadastro.
-     *
-     * @return instância da fábrica do cadastro
-     *
-     * @throws ErroModelo se ocorrer um erro na obtenção da fábrica do cadastro
-     */
-    protected abstract FabricaCadastro getFabricaCadastro() throws ErroModelo;
     
     /**
      * Retorna o nome lógico do modelo.
      *
      * @return nome lógico do modelo
      */
-    public final String getModelo() {
+    final String getModelo() {
         return modelo;
     }
     
@@ -54,7 +40,7 @@ public abstract class InfoCadastro {
      *
      * @return tipo do cadastro
      */
-    public final String getTipo() {
+    final String getTipo() {
         return tipo;
     }
     
@@ -67,7 +53,7 @@ public abstract class InfoCadastro {
      *
      * @throws Erro se ocorrer um erro na obtenção do cadastro
      */
-    public final Cadastro getCadastro() throws Erro {
-        return getFabricaCadastro().getCadastro(this);
+    final <U extends OT, T extends OT>Cadastro<U, T> getCadastro() throws Erro {
+        return FabricaCadastro.getCadastro(this);
     }
 }

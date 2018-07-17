@@ -7,14 +7,15 @@ import meyn.util.*;
  * 
  * @see meyn.util.contexto.Contexto
  */
+@SuppressWarnings("serial")
 public final class CacheMetaDados extends Cache<String, Object> {
 
-    /**
-     * Retorna o cache de metadados de componentes JavaBeans.
-     *
-     * @return cache de metadados
-     */
-    public static CacheMetaDados getCacheMetaDados() {
-        return (CacheMetaDados)getCache(CacheMetaDados.class.getName());
-    }
+	/**
+	 * Retorna o cache de metadados de componentes JavaBeans.
+	 *
+	 * @return cache de metadados
+	 */
+	public static CacheMetaDados getCacheMetaDados() {
+		return (CacheMetaDados) getCache(CacheMetaDados.class);
+	}
 }

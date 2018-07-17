@@ -3,6 +3,7 @@ package meyn.util;
 /**
  * Erro ocorrido durante o processamento da <i>framework</i>.
  */
+@SuppressWarnings("serial")
 public class Erro extends Exception {
     /**
      * Cria uma instancia de erro com esta mensagem.

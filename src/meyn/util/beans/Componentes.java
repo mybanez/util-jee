@@ -46,7 +46,7 @@ public final class Componentes {
                 try {
                     mpInfoProps = new HashMap<String, PropertyDescriptor>();
                     getDescritoresPropriedades(tipo, mpInfoProps);
-                    cache.put("PROPS."+tipo.getName(), mpInfoProps);
+                    cache.put(tipo.getName(), mpInfoProps);
                 } catch (IntrospectionException ie) {
                     throw new ErroExecucao("Erro obtendo metadados", ie);
                 }

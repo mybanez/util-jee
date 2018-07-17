@@ -5,6 +5,7 @@ import meyn.util.*;
 /**
  * Levantado para indicar um erro de {@link Contexto contexto}.
  */
+@SuppressWarnings("serial")
 public class ErroContexto extends ErroExecucao {
     public ErroContexto(String msg) {
         super(msg);

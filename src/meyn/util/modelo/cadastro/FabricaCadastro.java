@@ -1,7 +1,8 @@
-package meyn.util.modelo.entidade;
+package meyn.util.modelo.cadastro;
 
 import meyn.util.*;
 import meyn.util.modelo.*;
+import meyn.util.modelo.ot.OT;
 
 /**
  * Suporte para a implementação de fábricas de cadastro. Esta classe é usada por 
@@ -9,21 +10,28 @@ import meyn.util.modelo.*;
  * sua vez, usa {@link MapaCadastros MapaCadastros} para recuperar os mapeamentos 
  * entre os nomes lógicos dos modelos e os componentes cadastro.
  */
-public abstract class FabricaCadastro extends FabricaObjetoModelo {
+public class FabricaCadastro extends FabricaObjetoModelo {
     
     /**
-     * Retorna uma instância de fábrica de cadastro deste tipo.
+     * Retorna o cadastro associado a esta instância de {@link InfoCadastro InfoCadastro}.
+     * 
+     * @param info instância de InfoCadastro
      *
-     * @param tipo tipo da fábrica
+     * @return cadastro associado a esta instância de InfoCadastro
      *
-     * @return instância da fábrica de cadastro
-     *
-     * @throws ErroModelo se ocorrer um erro na obtenção da fábrica
+     * @throws Erro se ocorrer um erro na obtenção do cadastro
      */
-    public static FabricaCadastro getFabricaCadastro(String tipo) throws ErroModelo {
-        return (FabricaCadastro)getInstanciaEmCache(tipo, tipo);
+    @SuppressWarnings("unchecked")
+	static <U extends OT, T extends OT>Cadastro<U, T> getCadastro(InfoCadastro info)
+    throws Erro {
+        Cadastro<U, T> cadastro = (Cadastro<U, T>)getInstanciaEmCache(info.getModelo());
+        if (cadastro == null) {
+            cadastro = (Cadastro<U, T>)getInstanciaEmCache(info.getModelo(), info.getTipo());
+            cadastro.setModelo(info.getModelo());
+        }
+        return cadastro;
     }
-    
+
     /**
      * Retorna o cadastro associado a este nome lógico de modelo.
      *
@@ -33,7 +41,7 @@ public abstract class FabricaCadastro extends FabricaObjetoModelo {
      *
      * @throws ErroCadastro se ocorrer um erro na obtenção do cadastro
      */
-    public static Cadastro getCadastro(String modelo) throws ErroCadastro {
+    public static <U extends OT, T extends OT>Cadastro<U, T> getCadastro(String modelo) throws ErroCadastro {
         MapaCadastros mapa = MapaCadastros.getMapaCadastros();
         InfoCadastro info = (InfoCadastro) mapa.get(modelo);
         if (info == null) {
@@ -45,15 +53,4 @@ public abstract class FabricaCadastro extends FabricaObjetoModelo {
             throw new ErroCadastro("Erro obtendo cadastro para o modelo '"+modelo+"'", e);
         }
     }
-    
-    /**
-     * Retorna o cadastro associado a esta instância de {@link InfoCadastro InfoCadastro}.
-     * 
-     * @param info instância de InfoCadastro
-     *
-     * @return cadastro associado a esta instância de InfoCadastro
-     *
-     * @throws Erro se ocorrer um erro na obtenção do cadastro
-     */
-    protected abstract Cadastro getCadastro(InfoCadastro info) throws Erro;
 }

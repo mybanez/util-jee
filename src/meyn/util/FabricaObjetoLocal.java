@@ -1,5 +1,6 @@
 package meyn.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -9,23 +10,6 @@ import java.util.*;
  */
 public class FabricaObjetoLocal {
     protected FabricaObjetoLocal() {}
-    
-    /**
-     * Retorna um objeto guardado neste cache a partir desta chave. O objeto já
-     * deve ter sido previamente instanciado e inserido no cache. Se o objeto
-     * não existir, o método retorna <tt>null</tt>.
-     *
-     * @param cache cache de objetos
-     * @param chave chave do objeto guardado no cache
-     *
-     * @return objeto guardado no cache
-     */
-    public final static Object getInstanciaEmCache(Map<?, ?> cache, Object chave) {
-        if (cache != null) {
-            return cache.get(chave);
-        }
-        return null;
-    }
     
     /**
      * Retorna um objeto guardado neste cache a partir desta chave. Se o objeto
@@ -39,7 +23,7 @@ public class FabricaObjetoLocal {
      *
      * @return objeto guardado no cache
      */
-    public final static Object getInstanciaEmCache(Map<Object, Object> cache, Object chave, String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public final static Object getInstanciaEmCache(Map<Object, Object> cache, Object chave, String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
         return getInstanciaEmCache(cache, chave, Thread.currentThread().getContextClassLoader(), classe);
     }
     
@@ -55,12 +39,12 @@ public class FabricaObjetoLocal {
      *
      * @return objeto guardado no cache
      */
-    public final static Object getInstanciaEmCache(Map<Object, Object> cache, Object chave, ClassLoader carregador, String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public final static Object getInstanciaEmCache(Map<Object, Object> cache, Object chave, ClassLoader carregador, String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
         
         Object obj = cache.get(chave);
         if (obj == null) {
             synchronized (cache) {
-                if (cache.get(chave) == null) {
+                if (!cache.containsKey(chave)) {
                     obj = getInstancia(carregador, classe);
                     cache.put(chave, obj);
                 }
@@ -77,7 +61,7 @@ public class FabricaObjetoLocal {
      *
      * @return objeto instanciado
      */
-    public final static Object getInstancia(String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public final static Object getInstancia(String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
         return getInstancia(Thread.currentThread().getContextClassLoader(), classe);
     }
     
@@ -90,7 +74,7 @@ public class FabricaObjetoLocal {
      *
      * @return objeto instanciado
      */
-    public final static Object getInstancia(ClassLoader carregador, String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        return carregador.loadClass(classe).newInstance();
+    public final static Object getInstancia(ClassLoader carregador, String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
+        return carregador.loadClass(classe).getDeclaredConstructor().newInstance();
     }
 }

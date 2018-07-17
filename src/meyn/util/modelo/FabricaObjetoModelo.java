@@ -1,5 +1,8 @@
 package meyn.util.modelo;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+
 import meyn.util.*;
 
 /**
@@ -22,7 +25,7 @@ public class FabricaObjetoModelo extends FabricaObjetoLocal {
      * @return objeto guardado no cache
      */
     public final static Object getInstanciaEmCache(Object chave) {
-        return getInstanciaEmCache(CacheModelo.getCacheModelo(), chave);
+        return ((Map<?, ?>) CacheModelo.getCacheModelo()).get(chave);
     }
     
     /**
@@ -40,9 +43,10 @@ public class FabricaObjetoModelo extends FabricaObjetoLocal {
     public final static Object getInstanciaEmCache(Object chave, String classe)
     throws ErroModelo {
         try {
-            return getInstanciaEmCache(CacheModelo.getCacheModelo(), chave, classe);
-        } catch (Exception e) {
+			return getInstanciaEmCache(CacheModelo.getCacheModelo(), chave, classe);
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
             throw new ErroModelo("Erro instanciando objeto do modelo", e);
-        }
+		}
     }
 }

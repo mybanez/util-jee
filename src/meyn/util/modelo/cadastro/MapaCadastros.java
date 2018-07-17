@@ -1,4 +1,4 @@
-package meyn.util.modelo.entidade;
+package meyn.util.modelo.cadastro;
 
 import java.io.*;
 import java.util.*;
@@ -22,6 +22,7 @@ import meyn.util.modelo.*;
  * 
  * @see meyn.util.contexto.Contexto
  */
+@SuppressWarnings("serial")
 public final class MapaCadastros extends HashMap<String, InfoCadastro> {
 	protected String getArquivoMapa() {
 		String arquivo;
@@ -69,7 +70,7 @@ public final class MapaCadastros extends HashMap<String, InfoCadastro> {
                     if (cadastro.getNodeName().equals("local")) {
                         String modelo = infoModelo.item(0).getFirstChild().getNodeValue();
                         String tipo = infoModelo.item(1).getFirstChild().getNodeValue();
-                        put(modelo, new InfoCadastroLocal(modelo, tipo));
+                        put(modelo, new InfoCadastro(modelo, tipo));
                     } else {
                         throw new ErroExecucao("Tipo de cadastro não suportado: "+cadastro.getNodeName());
                     }

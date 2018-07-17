@@ -19,6 +19,7 @@ import meyn.util.beans.*;
  *
  * @see FabricaOT
  */
+@SuppressWarnings("serial")
 public abstract class OTTipado extends OTImpl {
     private Class<?> tipoAcessoProps;
     
@@ -43,14 +44,6 @@ public abstract class OTTipado extends OTImpl {
     }
     
     /**
-     * Ver {@link OTImpl#OTImpl(Collection,Collection) OTImpl(Collection,Collection)}.
-     */
-    public OTTipado(Collection<String> clNomesPropsChave, Collection<String> clNomesProps, Class<?> tipoAcessoProps) {
-        super(clNomesPropsChave, clNomesProps);
-        setTipoAcessoPropriedades(tipoAcessoProps);        
-    }
-    
-    /**
      * Cria um objeto de transferência com as propriedades e valores 
      * definidos neste mapa e que implementa esta interface de acesso.
      *
@@ -62,23 +55,8 @@ public abstract class OTTipado extends OTImpl {
         set(mpProps);        
         setTipoAcessoPropriedades(tipoAcessoProps);        
     }
-    
-    /**
-     * Cria um objeto de transferência com os propriedades chave definidas nesta 
-     * coleção, com as propriedades e valores definidos neste mapa e que implementa 
-     * esta interface de acesso.
-     *
-     * @param clNomesPropsChave nomes das propriedades que compõem a
-     *        chave primária
-     * @param mpProps nomes e valores das propriedades
-     * @param tipoAcessoProps interface de acesso às propriedades
-     */
-    public OTTipado(Collection<String> clNomesPropsChave, Map<String, Object> mpProps, Class<?> tipoAcessoProps) {
-        super(clNomesPropsChave, new ArrayList<String>(mpProps.keySet()));
-        set(mpProps);        
-        setTipoAcessoPropriedades(tipoAcessoProps);        
-    }
 
+    @Override	
     public final Class<?> getTipoAcessoPropriedades() {
         return tipoAcessoProps;
     }
@@ -95,38 +73,40 @@ public abstract class OTTipado extends OTImpl {
     /**
      * Implementação estática da lógica do método {@link OTImpl#get(String) get(String)}.
      */
-    public final static Object get(OT ot, String nome) {
-        validarPropriedade(ot, nome);
-        Map<String, PropertyDescriptor> mpInfoProp = Componentes.getDescritoresPropriedades(ot.getClass());
-        PropertyDescriptor infoProp = mpInfoProp.get(nome);
-        if (infoProp == null || infoProp.getReadMethod() == null) {
-            throw new ErroExecucao("Não existe método de escrita para a propriedade: "+nome);
-        }
+    public final static Object get(OTTipado ot, String nome) {
         try {
-            return infoProp.getReadMethod().invoke(ot, new Object[]{});
-        } catch (InvocationTargetException ite) {
-            throw new ErroExecucao("Erro lendo propriedade '"+nome+"'", ite.getTargetException());
-        } catch (Exception e) {
-            throw new ErroExecucao("Erro lendo propriedade '"+nome+"'", e);
+            validarPropriedade(ot, nome);
+            Map<String, PropertyDescriptor> mpInfoProp = Componentes.getDescritoresPropriedades(ot.getClass());
+            PropertyDescriptor infoProp = mpInfoProp.get(nome);
+            Method met = infoProp.getReadMethod();
+            if (met == null) {
+                throw new ErroExecucao("Método get inexistente: "+nome);
+            }
+        	return met.invoke(ot, new Object[]{});
+        } catch (InvocationTargetException e) {
+            throw new ErroExecucao("Erro lendo propriedade: "+nome, e.getTargetException());
+        } catch (IllegalAccessException | IllegalArgumentException e) {
+            throw new ErroExecucao("Erro lendo propriedade: "+nome, e);
         }
     }
     
     /**
      * Implementação estática da lógica do método {@link OTImpl#set(String,Object) set(String,Object)}.
      */
-    public final static void set(OT ot, String nome, Object valor) { 
-        validarPropriedade(ot, nome);
-        Map<String, PropertyDescriptor> mpInfoProp = Componentes.getDescritoresPropriedades(ot.getClass());
-        PropertyDescriptor infoProp = mpInfoProp.get(nome);
-        if (infoProp == null || infoProp.getWriteMethod() == null) {
-            throw new ErroExecucao("Não existe método de escrita para a propriedade: "+nome);
-        }
+    public final static void set(OTTipado ot, String nome, Object valor) { 
         try {
-            infoProp.getWriteMethod().invoke(ot, new Object[]{ valor });
-        } catch (InvocationTargetException ite) {
-            throw new ErroExecucao("Erro escrevendo propriedade '"+nome+"'", ite.getTargetException());
-        } catch (Exception e) {
-            throw new ErroExecucao("Erro escrevendo propriedade '"+nome+"'", e);
+            validarPropriedade(ot, nome);
+            Map<String, PropertyDescriptor> mpInfoProp = Componentes.getDescritoresPropriedades(ot.getClass());
+            PropertyDescriptor infoProp = mpInfoProp.get(nome);
+            Method met = infoProp.getWriteMethod();
+            if (met == null) {
+                throw new ErroExecucao("Método set inexistente: "+nome);
+            }
+            met.invoke(ot, new Object[]{ valor });
+        } catch (InvocationTargetException e) {
+            throw new ErroExecucao("Erro escrevendo propriedade: "+nome, e.getTargetException());
+        } catch (IllegalAccessException | IllegalArgumentException e) {
+            throw new ErroExecucao("Erro escrevendo propriedade: "+nome, e);
         }
     }
     
