@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+ 
 /**
  * Contexto de execução de uma aplicação. Múltiplos contextos podem ser criados
  * e associados a chaves genéricas. A chave identifica unicamente uma instância
