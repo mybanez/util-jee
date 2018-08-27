@@ -12,42 +12,35 @@ import java.util.*;
 public interface AcessoPropriedades extends Serializable
 {
   /**
-   * Retorna todas as propriedades do JavaBean.
-   *
-   * @return mapa com os valores de todas as propriedades
-   */
-  Map<String, Object> get();
-
-  /**
      * Retorna os valores destas propriedades.
      * 
-     * @param clNames nomes das propriedades selecionadas
+     * @param clNomes nomes das propriedades selecionadas
      *
      * @return mapa com os valores das propriedades selecionadas
      */
-  Map<String, Object> get(Collection<String> clNames);
+  Map<String, Object> get(Collection<String> clNomes);
 
   /**
      * Define os valores destas propriedades.
      * 
-     * @param mpValues mapa com os valores das propriedades selecionadas
+     * @param mpVals mapa com os valores das propriedades selecionadas
      */
-  void set(Map<String, Object> mpValues);
+  void set(Map<String, Object> mpValores);
 
   /**
    * Retorna o valor desta propriedade.
    *
-   * @param name nome da propriedade
+   * @param nome nome da propriedade
    *
    * @return valor da propriedade
    */
-  Object get(String name);
+  Object get(String nome);
 
   /**
    * Define o valor desta propriedade.
    *
-   * @param name nome da propriedade
-   * @param value valor da propriedade
+   * @param nome nome da propriedade
+   * @param valor valor da propriedade
    */
-  void set(String name, Object value);
+  void set(String nome, Object valor);
 }

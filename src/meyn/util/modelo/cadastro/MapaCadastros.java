@@ -20,15 +20,15 @@ import meyn.util.modelo.*;
  * mapeamento é buscado no contexto JNDI 'java:comp/env/fsc' usando-se 
  * a chave <tt>ChavesModelo.MAPA_CADASTROS</tt>. 
  * 
- * @see meyn.util.contexto.Contexto
+ * @see meyn.util.contexto.ContextoEmMemoria
  */
 @SuppressWarnings("serial")
 public final class MapaCadastros extends HashMap<String, InfoCadastro> {
 	protected String getArquivoMapa() {
 		String arquivo;
 		try {
-			Context ctx = new InitialContext();
-			arquivo = (String)ctx.lookup(ChavesModelo.CONTEXTO_JNDI+ChavesModelo.MAPA_CADASTROS);
+			Context contexto = new InitialContext();
+			arquivo = (String)contexto.lookup(ChavesModelo.CONTEXTO_JNDI+ChavesModelo.MAPA_CADASTROS);
 		} catch (NamingException e) {
 			arquivo = "cadastros.xml";
 		}

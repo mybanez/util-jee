@@ -2,7 +2,7 @@ package meyn.util.modelo.cadastro;
 
 import meyn.util.*;
 import meyn.util.modelo.*;
-import meyn.util.modelo.ot.OT;
+import meyn.util.modelo.entidade.Entidade;
 
 /**
  * Suporte para a implementação de fábricas de cadastro. Esta classe é usada por 
@@ -22,7 +22,7 @@ public class FabricaCadastro extends FabricaObjetoModelo {
      * @throws Erro se ocorrer um erro na obtenção do cadastro
      */
     @SuppressWarnings("unchecked")
-	static <U extends OT, T extends OT>Cadastro<U, T> getCadastro(InfoCadastro info)
+	static <U extends Entidade, T extends Entidade>Cadastro<U, T> getCadastro(InfoCadastro info)
     throws Erro {
         Cadastro<U, T> cadastro = (Cadastro<U, T>)getInstanciaEmCache(info.getModelo());
         if (cadastro == null) {
@@ -41,7 +41,7 @@ public class FabricaCadastro extends FabricaObjetoModelo {
      *
      * @throws ErroCadastro se ocorrer um erro na obtenção do cadastro
      */
-    public static <U extends OT, T extends OT>Cadastro<U, T> getCadastro(String modelo) throws ErroCadastro {
+    public static <U extends Entidade, T extends Entidade>Cadastro<U, T> getCadastro(String modelo) throws ErroCadastro {
         MapaCadastros mapa = MapaCadastros.getMapaCadastros();
         InfoCadastro info = (InfoCadastro) mapa.get(modelo);
         if (info == null) {

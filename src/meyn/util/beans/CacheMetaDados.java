@@ -5,7 +5,7 @@ import meyn.util.*;
 /**
  * Cache de metadados de componentes JavaBean.
  * 
- * @see meyn.util.contexto.Contexto
+ * @see meyn.util.contexto.ContextoEmMemoria
  */
 @SuppressWarnings("serial")
 public final class CacheMetaDados extends Cache<String, Object> {

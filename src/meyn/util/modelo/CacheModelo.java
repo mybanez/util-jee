@@ -7,7 +7,7 @@ import meyn.util.*;
  * da aplicação JEE, vinculado ao nome desta classe. É garantida a existência 
  * de <b>um único cache por <i>class loader</i></b>.
  * 
- * @see meyn.util.contexto.Contexto
+ * @see meyn.util.contexto.ContextoEmMemoria
  */
 @SuppressWarnings("serial")
 public class CacheModelo extends Cache<Object, Object> {

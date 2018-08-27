@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import meyn.util.modelo.cadastro.Cadastro;
 import meyn.util.modelo.cadastro.FabricaCadastro;
-import meyn.util.modelo.ot.OT;
+import meyn.util.modelo.entidade.Entidade;
 
 /**
  * Fachada que repassa operações em cima dos modelos para componentes do tipo
@@ -17,123 +17,82 @@ import meyn.util.modelo.ot.OT;
  */
 public abstract class FachadaModeloImpl implements FachadaModelo {
 
-	private final static OT USUARIO_NULO = null;
+	private final static Entidade USUARIO_NULO = null;
 
 	protected final Logger logger = LogManager.getLogger(getClass());
 
 	/**
 	 * Retorna o cadastro associado a este nome lógico de modelo.
 	 *
-	 * @throws ErroModelo
-	 *             se ocorrer um erro na obtenção do cadastro
+	 * @throws ErroModelo se ocorrer um erro na obtenção do cadastro
 	 */
-	protected final <TipoUsuario extends OT, TipoOT extends OT> Cadastro<TipoUsuario, TipoOT> getCadastro(
+	protected static final <TipoUsuario extends Entidade, TipoEnt extends Entidade> Cadastro<TipoUsuario, TipoEnt> getCadastro(
 			String modelo) throws ErroModelo {
 		return FabricaCadastro.getCadastro(modelo);
 	}
 
 	@Override
-	public <TipoOT extends OT> Collection<TipoOT> consultarTodos(String modelo) throws ErroModelo {
+	public <TipoEnt extends Entidade> Collection<TipoEnt> consultarTodos(String modelo) throws ErroModelo {
 		return consultarTodos(USUARIO_NULO, modelo);
 	}
 
 	@Override
-	public <TipoOT extends OT> Collection<TipoOT> consultarTodos(String modelo, Object molde)
-			throws ErroModelo {
-		return consultarTodos(USUARIO_NULO, modelo, molde.getClass());
-	}
-
-	@Override
-	public <TipoOT extends OT> Collection<TipoOT> consultarTodos(String modelo, Class<?> molde)
-			throws ErroModelo {
-		return consultarTodos(USUARIO_NULO, modelo, molde);
-	}
-
-	@Override
-	public <TipoUsuario extends OT, TipoOT extends OT> Collection<TipoOT> consultarTodos(TipoUsuario usuario,
+	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> Collection<TipoEnt> consultarTodos(TipoUsuario usuario,
 			String modelo) throws ErroModelo {
-		return this.<TipoUsuario, TipoOT>getCadastro(modelo).consultarTodos(usuario);
+		return FachadaModeloImpl.<TipoUsuario, TipoEnt>getCadastro(modelo).consultarTodos(usuario);
 	}
 
 	@Override
-	public <TipoUsuario extends OT, TipoOT extends OT> Collection<TipoOT> consultarTodos(TipoUsuario usuario,
-			String modelo, Object molde) throws ErroModelo {
-		return consultarTodos(usuario, modelo, molde.getClass());
-	}
-
-	@Override
-	public <TipoUsuario extends OT, TipoOT extends OT> Collection<TipoOT> consultarTodos(TipoUsuario usuario,
-			String modelo, Class<?> molde) throws ErroModelo {
-		return this.<TipoUsuario, TipoOT>getCadastro(modelo).consultarTodos(usuario, molde);
-	}
-
-	@Override
-	public <TipoOT extends OT> TipoOT consultarPorChavePrimaria(String modelo, TipoOT chave)
-			throws ErroModelo {
+	public <TipoEnt extends Entidade> TipoEnt consultarPorChavePrimaria(String modelo, TipoEnt chave) throws ErroModelo {
 		return consultarPorChavePrimaria(USUARIO_NULO, modelo, chave);
 	}
 
 	@Override
-	public <TipoOT extends OT> TipoOT consultarPorChavePrimaria(String modelo, TipoOT chave, Object molde)
+	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> TipoEnt consultarPorChavePrimaria(TipoUsuario usuario,
+			String modelo, TipoEnt chave) throws ErroModelo {
+		return FachadaModeloImpl.<TipoUsuario, TipoEnt>getCadastro(modelo).consultarPorChavePrimaria(usuario, chave);
+	}
+
+	@Override
+	public <TipoEnt extends Entidade> TipoEnt incluir(String modelo, TipoEnt ent) throws ErroModelo {
+		return incluir(USUARIO_NULO, modelo, ent);
+	}
+
+	@Override
+	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> TipoEnt incluir(TipoUsuario usuario, String modelo, TipoEnt ent)
 			throws ErroModelo {
-		return consultarPorChavePrimaria(USUARIO_NULO, modelo, chave, molde);
+		return FachadaModeloImpl.<TipoUsuario, TipoEnt>getCadastro(modelo).incluir(usuario, ent);
 	}
 
 	@Override
-	public <TipoOT extends OT> TipoOT consultarPorChavePrimaria(String modelo, TipoOT chave, Class<?> molde)
+	public <TipoEnt extends Entidade> TipoEnt alterar(String modelo, TipoEnt ent) throws ErroModelo {
+		return alterar(USUARIO_NULO, modelo, ent);
+	}
+
+	@Override
+	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> TipoEnt alterar(TipoUsuario usuario, String modelo, TipoEnt ent)
 			throws ErroModelo {
-		return consultarPorChavePrimaria(USUARIO_NULO, modelo, chave, molde);
+		return FachadaModeloImpl.<TipoUsuario, TipoEnt>getCadastro(modelo).alterar(usuario, ent);
 	}
 
 	@Override
-	public <TipoUsuario extends OT, TipoOT extends OT> TipoOT consultarPorChavePrimaria(TipoUsuario usuario,
-			String modelo, TipoOT chave) throws ErroModelo {
-		return this.<TipoUsuario, TipoOT>getCadastro(modelo).consultarPorChavePrimaria(usuario, chave);
+	public void excluirTodos(String modelo) throws ErroModelo {
+		excluirTodos(USUARIO_NULO, modelo);
 	}
 
 	@Override
-	public <TipoUsuario extends OT, TipoOT extends OT> TipoOT consultarPorChavePrimaria(TipoUsuario usuario,
-			String modelo, TipoOT chave, Object molde) throws ErroModelo {
-		return consultarPorChavePrimaria(usuario, modelo, chave, molde.getClass());
+	public <TipoEnt extends Entidade> void excluir(String modelo, TipoEnt ent) throws ErroModelo {
+		excluir(USUARIO_NULO, modelo, ent);
 	}
 
 	@Override
-	public <TipoUsuario extends OT, TipoOT extends OT> TipoOT consultarPorChavePrimaria(TipoUsuario usuario,
-			String modelo, TipoOT chave, Class<?> molde) throws ErroModelo {
-		return this.<TipoUsuario, TipoOT>getCadastro(modelo).consultarPorChavePrimaria(usuario, chave, molde);
+	public <TipoUsuario extends Entidade> void excluirTodos(TipoUsuario usuario, String modelo) throws ErroModelo {
+		FachadaModeloImpl.<TipoUsuario, Entidade>getCadastro(modelo).excluirTodos(usuario);
 	}
 
 	@Override
-	public <TipoOT extends OT> TipoOT incluir(String modelo, TipoOT ot) throws ErroModelo {
-		return incluir(USUARIO_NULO, modelo, ot);
-	}
-
-	@Override
-	public <TipoUsuario extends OT, TipoOT extends OT> TipoOT incluir(TipoUsuario usuario, String modelo, TipoOT ot)
+	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> void excluir(TipoUsuario usuario, String modelo, TipoEnt ent)
 			throws ErroModelo {
-		return this.<TipoUsuario, TipoOT>getCadastro(modelo).incluir(usuario, ot);
-	}
-
-	@Override
-	public <TipoOT extends OT> TipoOT alterar(String modelo, TipoOT ot) throws ErroModelo {
-		return alterar(USUARIO_NULO, modelo, ot);
-	}
-
-	@Override
-	public <TipoUsuario extends OT, TipoOT extends OT> TipoOT alterar(TipoUsuario usuario, String modelo, TipoOT ot)
-			throws ErroModelo {
-		return this.<TipoUsuario, TipoOT>getCadastro(modelo).alterar(usuario, ot);
-	}
-
-
-	@Override
-	public <TipoOT extends OT> void excluir(String modelo, TipoOT ot) throws ErroModelo {
-		excluir(USUARIO_NULO, modelo, ot);
-	}
-
-	@Override
-	public <TipoUsuario extends OT, TipoOT extends OT> void excluir(TipoUsuario usuario, String modelo, TipoOT ot)
-			throws ErroModelo {
-		this.<TipoUsuario, TipoOT>getCadastro(modelo).excluir(usuario, ot);
+		FachadaModeloImpl.<TipoUsuario, TipoEnt>getCadastro(modelo).excluir(usuario, ent);
 	}
 }

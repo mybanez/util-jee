@@ -3,21 +3,19 @@ package meyn.util.modelo.cadastro;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import meyn.util.modelo.ot.OT;
+import meyn.util.modelo.entidade.Entidade;
 
 /**
  * Suporte para implementações de cadastro.
  */
-public abstract class CadastroImpl<TipoUsuario extends OT, TipoOT extends OT> implements Cadastro<TipoUsuario, TipoOT> {
+public abstract class CadastroImpl<TipoUsuario extends Entidade, TipoEnt extends Entidade> implements Cadastro<TipoUsuario, TipoEnt> {
 	
 	private String modelo;
-	private Class<?> moldeOTPadrao;
+	private Class<?> tipoEntidade;
 
 	private final Logger logger = LogManager.getLogger(getClass());
 
@@ -25,9 +23,9 @@ public abstract class CadastroImpl<TipoUsuario extends OT, TipoOT extends OT> im
 		Type[] tipos = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments();
 		String nomeTipo = tipos[tipos.length-1].getTypeName();
 		try {
-			moldeOTPadrao = (Class<?>) Class.forName(nomeTipo);
+			tipoEntidade = (Class<?>) Class.forName(nomeTipo);
 		} catch (ClassNotFoundException | SecurityException e) {
-			throw new ErroCadastro("Erro carregando molde OT padrão: " + nomeTipo, e);
+			throw new ErroCadastro("Erro carregando tipo da entidade: " + nomeTipo, e);
 		}
 	}
 
@@ -55,66 +53,44 @@ public abstract class CadastroImpl<TipoUsuario extends OT, TipoOT extends OT> im
 	@Override
 	public final void setModelo(String modelo) {
 		this.modelo = modelo;
-		logger.debug("instanciado");
+		logger.debug("iniciado");
 	}
 
-	public Class<?> getMoldeOTPadrao() {
-		return moldeOTPadrao;
+	protected Class<?> getTipoEntidade() {
+		return tipoEntidade;
 	}
 
-	public Logger getLogger() {
+	protected Logger getLogger() {
 		return logger;
 	}
 
 	@Override
-	public Collection<TipoOT> consultarTodos(TipoUsuario usuario) throws ErroCadastro {
-		return consultarTodos(usuario, getMoldeOTPadrao());
-	}
-
-	@Override
-	public Collection<TipoOT> consultarTodos(TipoUsuario usuario, Class<?> moldeOT) throws ErroCadastro {
-		Set<Class<?>> clMoldeOT = new HashSet<Class<?>>();
-		clMoldeOT.add(getMoldeOTPadrao());
-		clMoldeOT.add(moldeOT);
-		return consultarTodos(usuario, clMoldeOT);
-	}
-
-	@Override
-	public Collection<TipoOT> consultarTodos(TipoUsuario usuario, Collection<Class<?>> clMoldeOT) throws ErroCadastro {
+	public Collection<TipoEnt> consultarTodos(TipoUsuario usuario) throws ErroCadastro {
 		throw new UnsupportedOperationException("consultarTodos");
 	}
 
 	@Override
-	public TipoOT consultarPorChavePrimaria(TipoUsuario usuario, TipoOT chave) throws ErroCadastro {
-		return consultarPorChavePrimaria(usuario, chave, getMoldeOTPadrao());
-	}
-
-	@Override
-	public TipoOT consultarPorChavePrimaria(TipoUsuario usuario, TipoOT chave, Class<?> moldeOT) throws ErroCadastro {
-		Set<Class<?>> clMoldeOT = new HashSet<Class<?>>();
-		clMoldeOT.add(getMoldeOTPadrao());
-		clMoldeOT.add(moldeOT);
-		return consultarPorChavePrimaria(usuario, chave, clMoldeOT);
-	}
-
-	@Override
-	public TipoOT consultarPorChavePrimaria(TipoUsuario usuario, TipoOT chave, Collection<Class<?>> clMoldeOT)
-			throws ErroCadastro {
+	public TipoEnt consultarPorChavePrimaria(TipoUsuario usuario, TipoEnt chave) throws ErroCadastro {
 		throw new UnsupportedOperationException("consultarPorChavePrimaria");
 	}
 
 	@Override
-	public TipoOT incluir(TipoUsuario usuario, TipoOT ot) throws ErroCadastro {
+	public TipoEnt incluir(TipoUsuario usuario, TipoEnt ent) throws ErroCadastro {
 		throw new UnsupportedOperationException("incluir");
 	}
 
 	@Override
-	public TipoOT alterar(TipoUsuario usuario, TipoOT ot) throws ErroCadastro {
+	public TipoEnt alterar(TipoUsuario usuario, TipoEnt ent) throws ErroCadastro {
 		throw new UnsupportedOperationException("alterar");
 	}
 
 	@Override
-	public void excluir(TipoUsuario usuario, TipoOT ot) throws ErroCadastro {
+	public void excluirTodos(TipoUsuario usuario) throws ErroCadastro {
+		throw new UnsupportedOperationException("excluir todos");
+	}
+
+	@Override
+	public void excluir(TipoUsuario usuario, TipoEnt ent) throws ErroCadastro {
 		throw new UnsupportedOperationException("excluir");
 	}
 }

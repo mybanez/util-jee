@@ -12,7 +12,7 @@ public class ErroModelo extends Erro {
 		super(msg);
 	}
 
-	public ErroModelo(String msg, Throwable t) {
-		super(msg, t);
+	public ErroModelo(String msg, Exception e) {
+		super(msg, e);
 	}
 }

@@ -1,7 +1,7 @@
 package meyn.util.modelo.cadastro;
 
 import meyn.util.Erro;
-import meyn.util.modelo.ot.OT;
+import meyn.util.modelo.entidade.Entidade;
 
 /**
  * Guarda informações sobre uma implementação de cadastro. As informações ficam acessíveis 
@@ -53,7 +53,7 @@ class InfoCadastro {
      *
      * @throws Erro se ocorrer um erro na obtenção do cadastro
      */
-    final <U extends OT, T extends OT>Cadastro<U, T> getCadastro() throws Erro {
+    final <U extends Entidade, T extends Entidade>Cadastro<U, T> getCadastro() throws Erro {
         return FabricaCadastro.getCadastro(this);
     }
 }

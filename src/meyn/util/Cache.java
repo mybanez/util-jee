@@ -2,13 +2,12 @@ package meyn.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import meyn.util.contexto.Contexto;
-import meyn.util.modelo.ErroModelo;
+import meyn.util.contexto.ContextoEmMemoria;
 
 /**
  * Suporte para a implementação de caches guardados no <a href="Contexto.html">
@@ -17,86 +16,86 @@ import meyn.util.modelo.ErroModelo;
  * de <tt>Cache</tt>).
  * 
  * 
- * @see Contexto
+ * @see ContextoEmMemoria
  */
 @SuppressWarnings("serial")
-public abstract class Cache<TipoChave, TipoValor> extends HashMap<TipoChave, TipoValor> {
+public abstract class Cache<TipoChave, TipoValor> extends ConcurrentHashMap<TipoChave, TipoValor> {
 
-	private Contexto contexto;
-	private boolean atualizado = false;
-
-	private final Logger logger = LogManager.getLogger(getClass());
-	
 	/**
 	 * Retorna uma instância de cache deste tipo armazenado no contexto da
 	 * aplicação. Caso ainda não exista, cria a instância e guarda no contexto.
 	 *
-	 * @param tipo
-	 *            tipo do cache
+	 * @param tipo tipo do cache
 	 *
 	 * @return cache mantido no contexto da aplicação
 	 */
 	public final static <TipoChave, TipoValor> Cache<TipoChave, TipoValor> getCache(
 			Class<? extends Cache<TipoChave, TipoValor>> tipo) {
-		return getCache(Contexto.getContextoCarregador(), tipo);
+		return getCache(ContextoEmMemoria.getContextoCarregador(), tipo);
 	}
 
 	/**
 	 * Retorna uma instância de cache deste tipo armazenado neste contexto. Caso
 	 * ainda não exista, cria a instância e guarda no contexto.
 	 *
-	 * @param ctx
-	 *            contexto
-	 * @param tipo
-	 *            tipo do cache
+	 * @param contexto contexto
+	 * @param tipo     tipo do cache
 	 *
 	 * @return cache mantido no contexto da aplicação
 	 */
 	@SuppressWarnings("unchecked")
-	public final static <TipoChave, TipoValor> Cache<TipoChave, TipoValor> getCache(Contexto ctx,
+	public final static <TipoChave, TipoValor> Cache<TipoChave, TipoValor> getCache(ContextoEmMemoria contexto,
 			Class<? extends Cache<TipoChave, TipoValor>> tipo) {
 		String nomeCache = tipo.getName();
-		if (!ctx.containsKey(nomeCache)) {
+		if (!contexto.containsKey(nomeCache)) {
 			try {
 				Cache<?, ?> cache = (Cache<?, ?>) FabricaObjetoLocal.getInstancia(nomeCache);
-				ctx.put(nomeCache, cache);
-				cache.setContexto(ctx);
+				contexto.put(nomeCache, cache);
+				cache.setContexto(contexto);
 			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				throw new ErroExecucao("Erro instanciando cache: " + nomeCache, e);
 			}
 		}
-		return (Cache<TipoChave, TipoValor>) ctx.get(nomeCache);
+		return (Cache<TipoChave, TipoValor>) contexto.get(nomeCache);
 	}
 
-	protected Cache() {
-		logger.debug("instanciado");
-	}
-	
-	protected Contexto getContexto() {
+	private ContextoEmMemoria contexto;
+	public boolean atualizado = false;
+
+	private Logger logger = LogManager.getLogger(getClass());
+
+	protected ContextoEmMemoria getContexto() {
 		return contexto;
 	}
 
-	protected void setContexto(Contexto contexto) {
+	protected void setContexto(ContextoEmMemoria contexto) {
 		this.contexto = contexto;
 	}
 
-	public boolean isAtualizado() throws ErroModelo {
+	public boolean isAtualizado() {
 		return atualizado;
 	}
 
-	public void setAtualizado(boolean atualizado) throws ErroModelo {
+	public void setAtualizado(boolean atualizado) {
 		this.atualizado = atualizado;
+		if (!atualizado) {
+			logger.debug("cache invalidado");
+		}
 	}
 
 	protected Logger getLogger() {
 		return logger;
 	}
+	
+	protected void setLogger(Logger logger) {
+		this.logger = logger;
+	}
 
 	@Override
 	public TipoValor put(TipoChave chave, TipoValor valor) {
 		TipoValor res = super.put(chave, valor);
-		logger.trace("inserido: {}, {}", chave, valor.getClass().getName());
+		logger.trace("carregado (cache): {}, {}", chave, valor.getClass().getName());
 		return res;
 	}
 

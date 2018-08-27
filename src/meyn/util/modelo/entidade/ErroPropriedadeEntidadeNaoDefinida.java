@@ -1,4 +1,4 @@
-package meyn.util.modelo.ot;
+package meyn.util.modelo.entidade;
 
 import meyn.util.ErroExecucao;
 
@@ -7,8 +7,8 @@ import meyn.util.ErroExecucao;
  * transferência.
  */
 @SuppressWarnings("serial")
-public class ErroPropriedadeOTNaoDefinida extends ErroExecucao {
-    public ErroPropriedadeOTNaoDefinida(String msg) {
+public class ErroPropriedadeEntidadeNaoDefinida extends ErroExecucao {
+    public ErroPropriedadeEntidadeNaoDefinida(String msg) {
         super(msg);
     }
 }

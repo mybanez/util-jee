@@ -22,5 +22,6 @@ public class ErroExecucao extends RuntimeException {
      */
     public ErroExecucao(String msg, Throwable causa) {
         super(msg, causa);
+        
     }
 }

@@ -3,7 +3,7 @@ package meyn.util.modelo;
 import java.rmi.*;
 import java.util.*;
 
-import meyn.util.modelo.ot.*;
+import meyn.util.modelo.entidade.*;
 
 /**
  * Define os métodos genéricos de acesso aos modelos que uma fachada deve
@@ -15,34 +15,18 @@ import meyn.util.modelo.ot.*;
  * usuários da aplicação são usuários de banco</b>, e portando os dados de
  * login/senha têm de ser repassados para que as conexões possam ser abertas.
  *
- * @see OT
+ * @see Entidade
  */
 public interface FachadaModelo {
 	/**
 	 * Equivalente a
-	 * {@link FachadaModelo#consultarTodos(meyn.util.modelo.ot.OT,String)
+	 * {@link FachadaModelo#consultarTodos(meyn.util.modelo.entidade.Entidade,String)
 	 * consultarTodos(null, modelo)}.
 	 */
-	<TipoOT extends OT> Collection<TipoOT> consultarTodos(String modelo) throws RemoteException, ErroModelo;
+	<TipoEnt extends Entidade> Collection<TipoEnt> consultarTodos(String modelo) throws RemoteException, ErroModelo;
 
 	/**
-	 * Equivalente a
-	 * {@link FachadaModelo#consultarTodos(meyn.util.modelo.ot.OT,String,meyn.util.modelo.ot.OT)
-	 * consultarTodos(null, modelo, molde)}.
-	 */
-	<TipoOT extends OT> Collection<TipoOT> consultarTodos(String modelo, Object molde)
-			throws RemoteException, ErroModelo;
-
-	/**
-	 * Equivalente a
-	 * {@link FachadaModelo#consultarTodos(meyn.util.modelo.ot.OT,String,Class)
-	 * consultarTodos(null, modelo, molde)}.
-	 */
-	<TipoOT extends OT> Collection<TipoOT> consultarTodos(String modelo, Class<?> molde)
-			throws RemoteException, ErroModelo;
-
-	/**
-	 * Para este usuário, consulta todos os itens deste modelo. Os ots retornados
+	 * Para este usuário, consulta todos os itens deste modelo. As entidades retornadas
 	 * devem adotar o molde padrão.
 	 *
 	 * @param usuario
@@ -50,156 +34,55 @@ public interface FachadaModelo {
 	 * @param modelo
 	 *            modelo a ser consultado
 	 *
-	 * @return lista de ots com o resultado da consulta
+	 * @return lista de entidades com o resultado da consulta
 	 *
 	 * @throws RemoteException
 	 *             se ocorrer um erro na invocação remota do método
 	 * @throws ErroModelo
 	 *             se ocorrer um erro durante o processamento da operação
 	 */
-	<TipoUsuario extends OT, TipoOT extends OT> Collection<TipoOT> consultarTodos(TipoUsuario usuario, String modelo)
+	<TipoUsuario extends Entidade, TipoEnt extends Entidade> Collection<TipoEnt> consultarTodos(TipoUsuario usuario, String modelo)
 			throws RemoteException, ErroModelo;
 
 	/**
-	 * Para este usuário, consulta todos os itens deste modelo. Os ots retornados
-	 * devem adotar este molde.
-	 *
-	 * @param usuario
-	 *            usuario logado
-	 * @param modelo
-	 *            modelo a ser consultado
-	 * @param molde
-	 *            molde para os ots a serem retornados
-	 *
-	 * @return lista de ots com o resultado da consulta
-	 *
-	 * @throws RemoteException
-	 *             se ocorrer um erro na invocação remota do método
-	 * @throws ErroModelo
-	 *             se ocorrer um erro durante o processamento da operação
-	 */
-	<TipoUsuario extends OT, TipoOT extends OT> Collection<TipoOT> consultarTodos(TipoUsuario usuario, String modelo,
-			Object molde) throws RemoteException, ErroModelo;
-
-	/**
-	 * Para este usuário, consulta todos os itens deste modelo. Os ots retornados
-	 * devem adotar este tipo como molde. As propriedades de chave primária não
-	 * estarão definidas nos ots retornados.
-	 *
-	 * @param usuario
-	 *            usuario logado
-	 * @param modelo
-	 *            modelo a ser consultado
-	 * @param molde
-	 *            molde para os ots a serem retornados
-	 *
-	 * @return lista de ots com o resultado da consulta
-	 *
-	 * @throws RemoteException
-	 *             se ocorrer um erro na invocação remota do método
-	 * @throws ErroModelo
-	 *             se ocorrer um erro durante o processamento da operação
-	 */
-	<TipoUsuario extends OT, TipoOT extends OT> Collection<TipoOT> consultarTodos(TipoUsuario usuario, String modelo,
-			Class<?> molde) throws RemoteException, ErroModelo;
-
-	/**
 	 * Equivalente a
-	 * {@link FachadaModelo#consultarPorChavePrimaria(meyn.util.modelo.ot.OT,String,meyn.util.modelo.ot.OT)
+	 * {@link FachadaModelo#consultarPorChavePrimaria(meyn.util.modelo.entidade.Entidade,String,meyn.util.modelo.entidade.Entidade)
 	 * consultarPorChavePrimaria(null, modelo, chave)}.
 	 */
-	<TipoOT extends OT> TipoOT consultarPorChavePrimaria(String modelo, TipoOT chave)
-			throws RemoteException, ErroModelo;
-
-	/**
-	 * Equivalente a
-	 * {@link FachadaModelo#consultarPorChavePrimaria(meyn.util.modelo.ot.OT,String,meyn.util.modelo.ot.OT,meyn.util.modelo.ot.OT)
-	 * consultarPorChavePrimaria(null, modelo, chave, molde)}.
-	 */
-	<TipoOT extends OT> TipoOT consultarPorChavePrimaria(String modelo, TipoOT chave, Object molde)
-			throws RemoteException, ErroModelo;
-
-	/**
-	 * Equivalente a
-	 * {@link FachadaModelo#consultarPorChavePrimaria(meyn.util.modelo.ot.OT,String,meyn.util.modelo.ot.OT,Class)
-	 * consultarPorChavePrimaria(null, modelo, chave, molde)}.
-	 */
-	<TipoOT extends OT> TipoOT consultarPorChavePrimaria(String modelo, TipoOT chave, Class<?> molde)
+	<TipoEnt extends Entidade> TipoEnt consultarPorChavePrimaria(String modelo, TipoEnt chave)
 			throws RemoteException, ErroModelo;
 
 	/**
 	 * Consulta os dados de um item deste modelo a partir desta chave primária. Os
-	 * ots retornados devem adotar o molde padrão.
+	 * ents retornados devem adotar o molde padrão.
 	 *
 	 * @param modelo
 	 *            modelo a ser consultado
 	 * @param chave
-	 *            ot contendo a chave de consulta do item
+	 *            entidade contendo a chave de consulta do item
 	 *
-	 * @return ot com o resultado da consulta
+	 * @return ent com o resultado da consulta
 	 *
 	 * @throws RemoteException
 	 *             se ocorrer um erro na invocação remota do método
 	 * @throws ErroModelo
 	 *             se ocorrer um erro durante o processamento da operação
 	 */
-	<TipoUsuario extends OT, TipoOT extends OT> TipoOT consultarPorChavePrimaria(TipoUsuario usuario, String modelo,
-			TipoOT chave) throws RemoteException, ErroModelo;
-
-	/**
-	 * Consulta os dados de um item deste modelo a partir desta chave primária. Os
-	 * ots retornados devem adotar este molde.
-	 *
-	 * @param modelo
-	 *            modelo a ser consultado
-	 * @param chave
-	 *            ot contendo a chave de consulta do item
-	 * @param molde
-	 *            molde para o ot a ser retornado
-	 *
-	 * @return ot com o resultado da consulta
-	 *
-	 * @throws RemoteException
-	 *             se ocorrer um erro na invocação remota do método
-	 * @throws ErroModelo
-	 *             se ocorrer um erro durante o processamento da operação
-	 */
-	<TipoUsuario extends OT, TipoOT extends OT> TipoOT consultarPorChavePrimaria(TipoUsuario usuario, String modelo,
-			TipoOT chave, Object molde) throws RemoteException, ErroModelo;
-
-	/**
-	 * Consulta os dados de um item deste modelo a partir desta chave primária. Os
-	 * ots retornados devem adotar este tipo como molde.
-	 *
-	 * @param modelo
-	 *            modelo a ser consultado
-	 * @param chave
-	 *            ot contendo a chave de consulta do item
-	 * @param molde
-	 *            molde para o ot a ser retornado
-	 *
-	 * @return ot com o resultado da consulta
-	 *
-	 * @throws RemoteException
-	 *             se ocorrer um erro na invocação remota do método
-	 * @throws ErroModelo
-	 *             se ocorrer um erro durante o processamento da operação
-	 */
-	<TipoUsuario extends OT, TipoOT extends OT> TipoOT consultarPorChavePrimaria(TipoUsuario usuario, String modelo,
-			TipoOT chave, Class<?> molde) throws RemoteException, ErroModelo;
+	<TipoUsuario extends Entidade, TipoEnt extends Entidade> TipoEnt consultarPorChavePrimaria(TipoUsuario usuario, String modelo,
+			TipoEnt chave) throws RemoteException, ErroModelo;
 
 	/**
 	 * Equivalente a
-	 * {@link AcessoModelo#incluir(meyn.util.modelo.ot.OT,String,meyn.util.modelo.ot.OT)
-	 * incluir(null, modelo, ot)}.
+	 * {@link AcessoModelo#incluir(meyn.util.modelo.entidade.Entidade,String,meyn.util.modelo.entidade.Entidade)
+	 * incluir(null, modelo, ent)}.
 	 */
-	<TipoOT extends OT> TipoOT incluir(String modelo, TipoOT ot) throws RemoteException, ErroModelo;
+	<TipoEnt extends Entidade> TipoEnt incluir(String modelo, TipoEnt ent) throws RemoteException, ErroModelo;
 
 	/**
-	 * Para este usuário, inclui um item neste modelo a partir dos dados deste ot.
+	 * Para este usuário, inclui um item neste modelo a partir dos dados desta entidade.
 	 * Somente as propriedades obtidas através de uma chamada a
 	 * <tt>ot.getNomesPropriedades(modelo)</tt> devem ser usadas para preencher os
-	 * campos da tabela. Estas devem estar definidos também no ot retornado, que
+	 * campos da tabela. Estas devem estar definidos também na entidade retornado, que
 	 * pode conter valores inseridos e valores default usados para inicializar
 	 * campos da tabela.
 	 *
@@ -207,61 +90,65 @@ public interface FachadaModelo {
 	 *            usuario logado
 	 * @param modelo
 	 *            modelo onde o item será incluído
-	 * @param ot
-	 *            ot contendo os dados do item
+	 * @param ent
+	 *            entidade contendo os dados do item
 	 *
-	 * @return ot contendo os dados do item incluído
+	 * @return entidade contendo os dados do item incluído
 	 *
 	 * @throws RemoteException
 	 *             se ocorrer um erro na invocação remota do método
 	 * @throws ErroModelo
 	 *             se ocorrer um erro durante o processamento da operação
 	 */
-	<TipoUsuario extends OT, TipoOT extends OT> TipoOT incluir(TipoUsuario usuario, String modelo, TipoOT ot)
+	<TipoUsuario extends Entidade, TipoEnt extends Entidade> TipoEnt incluir(TipoUsuario usuario, String modelo, TipoEnt ent)
 			throws RemoteException, ErroModelo;
 
 	/**
 	 * Equivalente a
-	 * {@link AcessoModelo#alterar(meyn.util.modelo.ot.OT,String,meyn.util.modelo.ot.OT)
-	 * alterar(null, modelo, ot)}.
+	 * {@link AcessoModelo#alterar(meyn.util.modelo.entidade.Entidade,String,meyn.util.modelo.entidade.Entidade)
+	 * alterar(null, modelo, ent)}.
 	 */
-	<TipoOT extends OT> TipoOT alterar(String modelo, TipoOT ot) throws RemoteException, ErroModelo;
+	<TipoEnt extends Entidade> TipoEnt alterar(String modelo, TipoEnt ent) throws RemoteException, ErroModelo;
 
 	/**
-	 * Para este usuário, altera um item neste modelo a partir dos dados deste ot.
+	 * Para este usuário, altera um item neste modelo a partir dos dados desta entidade.
 	 * Os nomes das propriedades que compõem a chave primária devem ser obtidos
 	 * através de uma chamada a <tt>ot.getNomesPropriedadesChave(modelo)</tt>.
 	 * Somente as propriedades obtidas pela chamada a
 	 * <tt>ot.getNomesPropriedades(modelo)</tt> devem ser usadas para alterar os
-	 * campos da tabela. Estas propriedades devem estar definidas também no ot
+	 * campos da tabela. Estas propriedades devem estar definidas também na entidade
 	 * retornado.
 	 *
 	 * @param usuario
 	 *            usuario logado
 	 * @param modelo
 	 *            modelo onde o item será alterado
-	 * @param ot
-	 *            ot contendo os dados do item
+	 * @param ent
+	 *            entidade contendo os dados do item
 	 *
-	 * @return ot contendo os dados do item alterado
+	 * @return entidade contendo os dados do item alterado
 	 *
 	 * @throws RemoteException
 	 *             se ocorrer um erro na invocação remota do método
 	 * @throws ErroModelo
 	 *             se ocorrer um erro durante o processamento da operação
 	 */
-	<TipoUsuario extends OT, TipoOT extends OT> TipoOT alterar(TipoUsuario usuario, String modelo, TipoOT ot)
+	<TipoUsuario extends Entidade, TipoEnt extends Entidade> TipoEnt alterar(TipoUsuario usuario, String modelo, TipoEnt ent)
 			throws RemoteException, ErroModelo;
+
+	void excluirTodos(String modelo) throws ErroModelo;
 
 	/**
 	 * Equivalente a
-	 * {@link AcessoModelo#excluir(meyn.util.modelo.ot.OT,String,meyn.util.modelo.ot.OT)
-	 * excluir(null, modelo, ot)}.
+	 * {@link AcessoModelo#excluir(meyn.util.modelo.entidade.Entidade,String,meyn.util.modelo.entidade.Entidade)
+	 * excluir(null, modelo, ent)}.
 	 */
-	<TipoOT extends OT> void excluir(String modelo, TipoOT ot) throws RemoteException, ErroModelo;
+	<TipoEnt extends Entidade> void excluir(String modelo, TipoEnt ent) throws RemoteException, ErroModelo;
 
+	<TipoUsuario extends Entidade> void excluirTodos(TipoUsuario usuario, String modelo) throws ErroModelo;
+	
 	/**
-	 * Para este usuário, exclui um item neste modelo a partir dos dados deste ot.
+	 * Para este usuário, exclui um item neste modelo a partir dos dados desta entidade.
 	 * Os nomes das propriedades que compõem a chave primária devem ser obtidos
 	 * através de uma chamada a <tt>ot.getNomesPropriedadesChave(modelo)</tt>.
 	 *
@@ -269,14 +156,14 @@ public interface FachadaModelo {
 	 *            usuario logado
 	 * @param modelo
 	 *            modelo onde o item será excluído
-	 * @param ot
-	 *            ot contendo os dados do item
+	 * @param ent
+	 *            entidade contendo os dados do item
 	 *
 	 * @throws RemoteException
 	 *             se ocorrer um erro na invocação remota do método
 	 * @throws ErroModelo
 	 *             se ocorrer um erro durante o processamento da operação
 	 */
-	<TipoUsuario extends OT, TipoOT extends OT> void excluir(TipoUsuario usuario, String modelo, TipoOT ot)
+	<TipoUsuario extends Entidade, TipoEnt extends Entidade> void excluir(TipoUsuario usuario, String modelo, TipoEnt ent)
 			throws RemoteException, ErroModelo;
 }

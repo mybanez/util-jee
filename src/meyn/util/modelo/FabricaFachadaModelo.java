@@ -12,7 +12,7 @@ import javax.naming.*;
  * a chave <tt>ChavesModelo.FABRICA_FACHADA</tt>. A instância da fábrica deverá 
  * possuir os métodos de criação de fachada. 
  * 
- * @see meyn.util.contexto.Contexto
+ * @see meyn.util.contexto.ContextoEmMemoria
  */
 public abstract class FabricaFachadaModelo extends FabricaObjetoModelo {
     protected FabricaFachadaModelo() {}
@@ -33,8 +33,8 @@ public abstract class FabricaFachadaModelo extends FabricaObjetoModelo {
         if (fabrica == null) {
         	String classeFachada;
             try {
-    			Context ctx = new InitialContext();
-    			classeFachada = (String)ctx.lookup(ChavesModelo.CONTEXTO_JNDI+ChavesModelo.FABRICA_FACHADA);
+    			Context contexto = new InitialContext();
+    			classeFachada = (String)contexto.lookup(ChavesModelo.CONTEXTO_JNDI+ChavesModelo.FABRICA_FACHADA);
     		} catch (NamingException e) {
                 throw new ErroModelo("Erro obtendo fábrica da fachada", e);
     		}   	

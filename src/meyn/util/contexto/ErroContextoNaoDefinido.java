@@ -1,7 +1,7 @@
 package meyn.util.contexto;
 
 /**
- * Levantado para indicar que um {@link Contexto contexto} ainda não foi
+ * Levantado para indicar que um {@link ContextoEmMemoria contexto} ainda não foi
  * definido.
  */
 @SuppressWarnings("serial")

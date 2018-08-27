@@ -12,7 +12,7 @@ public class ErroCadastro extends ErroModelo {
         super(msg);
     }
     
-    public ErroCadastro(String msg, Throwable t) {
-        super(msg, t);
+    public ErroCadastro(String msg, Exception e) {
+        super(msg, e);
     }
 }
