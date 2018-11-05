@@ -83,6 +83,10 @@ public abstract class Cache<TipoChave, TipoValor> extends ConcurrentHashMap<Tipo
 			logger.debug("cache invalidado");
 		}
 	}
+	
+	public void invalidar() {
+		setAtualizado(false);
+	}
 
 	protected Logger getLogger() {
 		return logger;

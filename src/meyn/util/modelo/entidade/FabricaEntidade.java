@@ -7,10 +7,11 @@ import java.util.*;
 import meyn.util.beans.*;
 
 /**
- * Fabrica de objetos de transferência. Os métodos que não passam uma interface
- * de acesso às propriedades da entidade retornam instãncias de {@link EntidadeMapeada
- * EntidadeMapeada}. Já os que passam uma interface de acesso retornam instâncias de
- * entidade criadas através de chamadas a
+ * Fabrica de entidades usáveis como objetos de transferência. Os métodos que
+ * não passam uma interface de acesso às propriedades da entidade retornam
+ * instãncias de {@link EntidadeMapeada EntidadeMapeada}. Já os que passam uma
+ * interface de acesso retornam instâncias de entidade criadas através de
+ * chamadas a
  * {@link Proxy#newProxyInstance(ClassLoader,Class[],InvocationHandler)
  * Proxy.newProxyInstance(ClassLoader,Class[],InvocationHandler)}, usando uma
  * instância de {@link EntidadeInvocationHandler EntidadeInvocationHandler} como
@@ -25,10 +26,18 @@ public final class FabricaEntidade {
 	}
 
 	/**
-	 * Ver {@link EntidadeMapeada#EntidadeMapeada(Collection) EntidadeMapeada(Collection)}.
+	 * Ver {@link EntidadeMapeada#EntidadeMapeada(Collection)
+	 * EntidadeMapeada(Collection)}.
 	 */
 	public static Entidade getInstancia(Collection<String> clNomesProps) {
 		return new EntidadeMapeada(clNomesProps);
+	}
+
+	/**
+	 * Ver {@link EntidadeMapeada#EntidadeMapeada(Map) EntidadeMapeada(Map)}.
+	 */
+	public static Entidade getInstancia(Object bean) {
+		return new EntidadeMapeada(Componentes.getValoresPropriedades(bean));
 	}
 
 	/**
@@ -41,15 +50,16 @@ public final class FabricaEntidade {
 	/**
 	 * Ver {@link EntidadeTipada#EntidadeTipada(Class) EntidadeTipada(Class)}.
 	 */
-	public static <TipoEnt extends Entidade>TipoEnt getInstancia(Class<?> tipoAcessoProps) {
+	public static <TipoEnt extends Entidade> TipoEnt getInstancia(Class<?> tipoAcessoProps) {
 		return getInstancia(new ArrayList<String>(), tipoAcessoProps);
 	}
 
 	/**
-	 * Ver {@link EntidadeTipada#EntidadeTipada(Collection,Class) EntidadeTipada(Collection,Class)}.
+	 * Ver {@link EntidadeTipada#EntidadeTipada(Collection,Class)
+	 * EntidadeTipada(Collection,Class)}.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <TipoEnt extends Entidade>TipoEnt getInstancia(Collection<String> clNomesProps, Class<?> tipoAcessoProps) {
+	public static <TipoEnt extends Entidade> TipoEnt getInstancia(Collection<String> clNomesProps, Class<?> tipoAcessoProps) {
 		ClassLoader carregador = Thread.currentThread().getContextClassLoader();
 		InvocationHandler ih;
 		if (Proxy.isProxyClass(tipoAcessoProps)) {
@@ -72,10 +82,11 @@ public final class FabricaEntidade {
 	}
 
 	/**
-	 * Ver {@link EntidadeTipada#EntidadeTipada(Map,Class) EntidadeTipada(Map,Class)}.
+	 * Ver {@link EntidadeTipada#EntidadeTipada(Map,Class)
+	 * EntidadeTipada(Map,Class)}.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <TipoEnt extends Entidade>TipoEnt getInstancia(Map<String, Object> mpProps, Class<?> tipoAcessoProps) {
+	public static <TipoEnt extends Entidade> TipoEnt getInstancia(Map<String, Object> mpProps, Class<?> tipoAcessoProps) {
 		ClassLoader carregador = Thread.currentThread().getContextClassLoader();
 		InvocationHandler ih;
 		if (Proxy.isProxyClass(tipoAcessoProps)) {

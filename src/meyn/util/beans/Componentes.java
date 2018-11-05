@@ -18,13 +18,13 @@ public final class Componentes {
 	private static void getDescritoresPropriedades(Class<?> tipo, Map<String, PropertyDescriptor> mpInfoProps)
 			throws IntrospectionException {
 		PropertyDescriptor clInfoProp[] = Introspector.getBeanInfo(tipo).getPropertyDescriptors();
-		for (int i = 0; i < clInfoProp.length; i++) {
-			mpInfoProps.put(clInfoProp[i].getName(), clInfoProp[i]);
+		for (PropertyDescriptor infoProp : clInfoProp) {
+			mpInfoProps.put(infoProp.getName(), infoProp);
 		}
 		if (tipo.isInterface()) {
-			Class<?> itfs[] = tipo.getInterfaces();
-			for (int i = 0; i < itfs.length; i++) {
-				getDescritoresPropriedades(itfs[i], mpInfoProps);
+			Class<?> clItfs[] = tipo.getInterfaces();
+			for (Class<?> itf : clItfs) {
+				getDescritoresPropriedades(itf, mpInfoProps);
 			}
 		}
 	}
@@ -56,9 +56,22 @@ public final class Componentes {
 	}
 
 	/**
+	 * Mapeia os valores armazenados nas propriedades deste <i>bean</i>. Equivale a
+	 * uma chamada a <tt>getValoresPropriedades(bean.getClass(), bean, false)</tt>.
+	 *
+	 *
+	 * @param tipo tipo que define as propriedades a serem mapeadas
+	 * @param bean JavaBean cujas propriedades serão mapeadas
+	 * @return mapa com os nomes e valores das propriedades do JavaBean
+	 */
+	public static Map<String, Object> getValoresPropriedades(Object bean) {
+		return getValoresPropriedades(bean.getClass(), bean, false);
+	}
+
+	/**
 	 * Para as propriedades definidas neste tipo, mapeia os valores armazenados
 	 * neste <i>bean</i>. Equivale a uma chamada a
-	 * <tt>getValoresPropriedades(bean, true)</tt>.
+	 * <tt>getValoresPropriedades(tipo, bean, true)</tt>.
 	 *
 	 *
 	 * @param tipo tipo que define as propriedades a serem mapeadas
@@ -110,24 +123,24 @@ public final class Componentes {
 		try {
 			PropertyDescriptor clInfoPropTipo[] = Introspector.getBeanInfo(tipo).getPropertyDescriptors();
 			if (tipoCompativel) {
-				for (int i = 0; i < clInfoPropTipo.length; i++) {
-					if (clInfoPropTipo[i].getReadMethod() != null) {
-						nome = clInfoPropTipo[i].getName();
-						valor = clInfoPropTipo[i].getReadMethod().invoke(bean, new Object[] {});
+				for (PropertyDescriptor infoPropTipo : clInfoPropTipo) {
+					if (infoPropTipo.getReadMethod() != null) {
+						nome = infoPropTipo.getName();
+						valor = infoPropTipo.getReadMethod().invoke(bean, new Object[] {});
 						mpValores.put(nome, valor);
 					}
 				}
 			} else {
-				PropertyDescriptor infoPropBean[] = Introspector.getBeanInfo(bean.getClass()).getPropertyDescriptors();
+				PropertyDescriptor clInfoPropBean[] = Introspector.getBeanInfo(bean.getClass()).getPropertyDescriptors();
 				Map<String, PropertyDescriptor> mpInfoPropBean = new HashMap<String, PropertyDescriptor>();
-				for (int i = 0; i < infoPropBean.length; i++) {
-					mpInfoPropBean.put(clInfoPropTipo[i].getName(), clInfoPropTipo[i]);
+				for (PropertyDescriptor infoProp : clInfoPropBean) {
+					mpInfoPropBean.put(infoProp.getName(), infoProp);
 				}
-				for (int i = 0; i < clInfoPropTipo.length; i++) {
-					PropertyDescriptor info = mpInfoPropBean.get(clInfoPropTipo[i].getName());
-					if (info != null && info.getReadMethod() != null) {
-						nome = info.getName();
-						valor = info.getReadMethod().invoke(bean, new Object[] {});
+				for (PropertyDescriptor infoPropTipo : clInfoPropTipo) {
+					PropertyDescriptor infoPropBean = mpInfoPropBean.get(infoPropTipo.getName());
+					if (infoPropBean != null && infoPropBean.getReadMethod() != null) {
+						nome = infoPropBean.getName();
+						valor = infoPropBean.getReadMethod().invoke(bean, new Object[] {});
 						mpValores.put(nome, valor);
 					}
 				}
@@ -135,8 +148,7 @@ public final class Componentes {
 		} catch (IntrospectionException ie) {
 			throw new ErroExecucao("Erro obtendo metadados", ie);
 		} catch (InvocationTargetException ite) {
-			throw new ErroExecucao("Erro obtendo valor da propriedade '" + nome + "': " + tipoBean.getName(),
-					ite.getTargetException());
+			throw new ErroExecucao("Erro obtendo valor da propriedade '" + nome + "': " + tipoBean.getName(), ite.getTargetException());
 		} catch (IllegalAccessException e) {
 			throw new ErroExecucao("Erro obtendo valor da propriedade '" + nome + "': " + tipoBean.getName(), e);
 		}

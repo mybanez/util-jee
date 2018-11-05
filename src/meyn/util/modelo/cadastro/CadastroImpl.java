@@ -86,7 +86,9 @@ public abstract class CadastroImpl<TipoUsuario extends Entidade, TipoEnt extends
 
 	@Override
 	public void excluirTodos(TipoUsuario usuario) throws ErroCadastro {
-		throw new UnsupportedOperationException("excluir todos");
+		for(TipoEnt ent: consultarTodos(usuario)) {
+			excluir(usuario, ent);
+		}
 	}
 
 	@Override

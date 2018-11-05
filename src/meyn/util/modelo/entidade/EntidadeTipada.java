@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import meyn.util.ErroExecucao;
 import meyn.util.beans.Componentes;
 
 /**

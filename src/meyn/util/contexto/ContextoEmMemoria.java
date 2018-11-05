@@ -56,8 +56,10 @@ public class ContextoEmMemoria extends ConcurrentHashMap<String, Object> {
 			try {
 				definir(carregador.toString(), new ContextoEmMemoria());
 			} catch(ErroContextoJaDefinido e) {
-				/* Erro pode acontecer por concorrência. Estratégia é não sincronizar para ganhar performance,
-				   assumindo que este contexto seja definido uma única vez para a aplicação. */
+				/* Erro pode acontecer por concorrência. Estratégia é não 
+				 * sincronizar para ganhar performance, assumindo que este 
+				 * contexto seja definido uma única vez para a aplicação. 
+				 */
 			}
 		}
 		return buscar(carregador.toString());
