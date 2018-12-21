@@ -35,14 +35,7 @@ public class ContextoEmMemoria extends ConcurrentHashMap<String, Object> {
 
 	private static final Map<String, ContextoEmMemoria> MP_CONTEXTOS = new ConcurrentHashMap<String, ContextoEmMemoria>();
 
-	private static Logger LOGGER = null;
-
-	protected static Logger getStaticLogger() {
-		if (LOGGER == null) {
-			LOGGER = LogManager.getLogger(ContextoEmMemoria.class);
-		}
-		return LOGGER;
-	}
+	private static Logger LOGGER = LogManager.getLogger(ContextoEmMemoria.class);
 
 	/**
 	 * Retorna o contexto da aplicação usado pela <i>framework</i>, associado ao
@@ -55,10 +48,11 @@ public class ContextoEmMemoria extends ConcurrentHashMap<String, Object> {
 		if (!isDefinido(carregador.toString())) {
 			try {
 				definir(carregador.toString(), new ContextoEmMemoria());
-			} catch(ErroContextoJaDefinido e) {
-				/* Erro pode acontecer por concorrência. Estratégia é não 
-				 * sincronizar para ganhar performance, assumindo que este 
-				 * contexto seja definido uma única vez para a aplicação. 
+			} catch (ErroContextoJaDefinido e) {
+				/*
+				 * Erro pode acontecer por concorrência. Estratégia é não sincronizar para
+				 * ganhar performance, assumindo que este contexto seja definido uma única vez
+				 * para a aplicação.
 				 */
 			}
 		}
@@ -101,7 +95,7 @@ public class ContextoEmMemoria extends ConcurrentHashMap<String, Object> {
 			throw new ErroContextoJaDefinido(chave.toString());
 		}
 		MP_CONTEXTOS.put(chave, contexto);
-		getStaticLogger().debug("inserido: {}, {}", chave, contexto.getClass().getName());
+		LOGGER.debug("inserido: {}, {}", chave, contexto.getClass().getName());
 	}
 
 	/**
@@ -114,7 +108,7 @@ public class ContextoEmMemoria extends ConcurrentHashMap<String, Object> {
 			throw new ErroContextoNaoDefinido(chave.toString());
 		}
 		MP_CONTEXTOS.remove(chave);
-		getStaticLogger().debug("removido: {}", chave);
+		LOGGER.debug("removido: {}", chave);
 	}
 
 	/**
@@ -126,7 +120,7 @@ public class ContextoEmMemoria extends ConcurrentHashMap<String, Object> {
 	 */
 	public static void redefinir(String chave, ContextoEmMemoria contexto) {
 		MP_CONTEXTOS.put(chave, contexto);
-		getStaticLogger().debug("redefinido: {}", chave);
+		LOGGER.debug("redefinido: {}", chave);
 	}
 
 	private static String toString(Map<String, Object> map, String desc) {
@@ -135,8 +129,8 @@ public class ContextoEmMemoria extends ConcurrentHashMap<String, Object> {
 		int cont = 1;
 		sb.append("--- INICIO CONTEXTO: ").append(desc).append(" ---\n");
 		for (Entry<?, ?> item : itens) {
-			sb.append("Chave ").append(cont).append(":\n").append(item.getKey()).append("\nValor ").append(cont)
-					.append(":\n").append(item.getValue()).append("\n");
+			sb.append("Chave ").append(cont).append(":\n").append(item.getKey()).append("\nValor ").append(cont).append(":\n")
+			        .append(item.getValue()).append("\n");
 			cont++;
 		}
 		sb.append("------ FIM CONTEXTO: ").append(desc).append(" ---");

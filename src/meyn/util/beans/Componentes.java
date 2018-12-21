@@ -16,7 +16,7 @@ public final class Componentes {
 	}
 
 	private static void getDescritoresPropriedades(Class<?> tipo, Map<String, PropertyDescriptor> mpInfoProps)
-			throws IntrospectionException {
+	        throws IntrospectionException {
 		PropertyDescriptor clInfoProp[] = Introspector.getBeanInfo(tipo).getPropertyDescriptors();
 		for (PropertyDescriptor infoProp : clInfoProp) {
 			mpInfoProps.put(infoProp.getName(), infoProp);

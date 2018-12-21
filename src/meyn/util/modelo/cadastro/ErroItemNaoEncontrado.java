@@ -6,7 +6,7 @@ package meyn.util.modelo.cadastro;
  */
 @SuppressWarnings("serial")
 public class ErroItemNaoEncontrado extends ErroCadastro {
-    public ErroItemNaoEncontrado(String msg) {
-        super(msg);
-    }
+	public ErroItemNaoEncontrado(String msg) {
+		super(msg);
+	}
 }

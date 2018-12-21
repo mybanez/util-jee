@@ -7,11 +7,11 @@ import meyn.util.*;
  */
 @SuppressWarnings("serial")
 public class ErroContexto extends ErroExecucao {
-    public ErroContexto(String msg) {
-        super(msg);
-    }
-    
-    public ErroContexto(String msg, Exception e) {
-        super(msg, e);
-    }
+	public ErroContexto(String msg) {
+		super(msg);
+	}
+
+	public ErroContexto(String msg, Exception e) {
+		super(msg, e);
+	}
 }

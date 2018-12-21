@@ -51,10 +51,8 @@ public class EntidadeTipada extends EntidadeMapeada implements InvocationHandler
 	 * Cria uma entidade com as propriedades e valores definidos neste mapa e que
 	 * implementa esta interface de acesso.
 	 *
-	 * @param mpProps
-	 *            nomes e valores das propriedades
-	 * @param tipoAcessoProps
-	 *            interface de acesso às propriedades
+	 * @param mpProps         nomes e valores das propriedades
+	 * @param tipoAcessoProps interface de acesso às propriedades
 	 */
 	EntidadeTipada(Map<String, Object> mpProps, Class<?> tipoAcessoProps) {
 		super(mpProps);
@@ -65,10 +63,13 @@ public class EntidadeTipada extends EntidadeMapeada implements InvocationHandler
 	public final Class<?> getTipoAcessoPropriedades() {
 		return (Class<?>) get("tipoAcessoPropriedades");
 	}
-	
+
 	//// Implementação Invocation Handler ////
-	
-	private static final Collection<Entidade> COLECAO_ENT = new ArrayList<Entidade>();
+
+	private String getNomePropriedade(String nomeMetodo) {
+		return Character.isLowerCase(nomeMetodo.charAt(1)) ? Character.toLowerCase(nomeMetodo.charAt(0)) + nomeMetodo.substring(1)
+		        : nomeMetodo;
+	}
 
 	@SuppressWarnings("unchecked")
 	public Object invoke(Object proxy, Method method, Object[] args) {
@@ -86,22 +87,28 @@ public class EntidadeTipada extends EntidadeMapeada implements InvocationHandler
 				sb.append("Interfaces:\n");
 				Class<?> tipos[] = proxy.getClass().getInterfaces();
 				for (Class<?> tipo : tipos) {
-					sb.append('-');
-					sb.append(tipo.getTypeName());
-					sb.append('\n');
+					sb.append('-').append(tipo.getTypeName()).append('\n');
 				}
 				sb.append("Propriedades:\n");
 				List<String> lsProps = new ArrayList<String>(getNomesPropriedades());
 				ListIterator<String> iter = lsProps.listIterator();
-				while (iter.hasNext()) {
+				props : while (iter.hasNext()) {
 					String prop = iter.next();
 					Object valor = get(prop);
-					if (valor != null && !(valor instanceof Entidade) && !COLECAO_ENT.getClass().isInstance(valor)) {
-						sb.append('-');
-						sb.append(prop);
-						sb.append(": ");
-						sb.append(valor);
-						sb.append('\n');
+					if (valor != null && !(valor instanceof Entidade)) {
+						if (valor instanceof Collection<?>) {
+							Collection<?> cl = (Collection<?>)valor;
+							if (cl.isEmpty()) {
+								continue;
+							}
+							for (Object item : cl) {
+								if (item instanceof Entidade) {
+									continue props;
+								}
+								break;
+							}
+						}
+						sb.append('-').append(prop).append(": ").append(valor).append('\n');
 						iter.remove();
 					}
 				}
@@ -109,18 +116,18 @@ public class EntidadeTipada extends EntidadeMapeada implements InvocationHandler
 				iter = lsProps.listIterator();
 				while (iter.hasNext()) {
 					String prop = iter.next();
-					if (get(prop) != null) {
-						sb.append('-');
-						sb.append(prop);
-						sb.append('\n');
+					Object valor = get(prop);
+					if (valor != null) {
+						if (valor instanceof Collection<?> && ((Collection<?>)valor).isEmpty()) {
+							continue;
+						}
+						sb.append('-').append(prop).append('\n');
 						iter.remove();
 					}
 				}
 				sb.append("Não definido:\n");
 				for (String prop : lsProps) {
-					sb.append('-');
-					sb.append(prop);
-					sb.append('\n');
+					sb.append('-').append(prop).append('\n');
 				}
 				sb.append("------ FIM ENTIDADE: " + desc + " ---\n");
 				return sb.toString();
@@ -159,10 +166,4 @@ public class EntidadeTipada extends EntidadeMapeada implements InvocationHandler
 		}
 		throw new UnsupportedOperationException(proxy.getClass() + ": " + nomeMetodo);
 	}
-
-	private String getNomePropriedade(String nomeMetodo) {
-		return Character.isLowerCase(nomeMetodo.charAt(1))
-				? Character.toLowerCase(nomeMetodo.charAt(0)) + nomeMetodo.substring(1)
-				: nomeMetodo;
-	}	
 }

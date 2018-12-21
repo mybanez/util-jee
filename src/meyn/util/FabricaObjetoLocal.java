@@ -24,9 +24,8 @@ public class FabricaObjetoLocal {
 	 *
 	 * @return objeto guardado no cache
 	 */
-	public final static Object getInstanciaEmCache(Map<Object, Object> cache, Object chave, String classe)
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException,
-			NoSuchMethodException, SecurityException {
+	public final static Object getInstanciaEmCache(Map<Object, Object> cache, Object chave, String classe) throws ClassNotFoundException,
+	        InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		return getInstanciaEmCache(cache, chave, Thread.currentThread().getContextClassLoader(), classe);
 	}
 
@@ -42,9 +41,9 @@ public class FabricaObjetoLocal {
 	 *
 	 * @return objeto guardado no cache
 	 */
-	public final static Object getInstanciaEmCache(Map<Object, Object> cache, Object chave, ClassLoader carregador,
-			String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException, SecurityException {
+	public final static Object getInstanciaEmCache(Map<Object, Object> cache, Object chave, ClassLoader carregador, String classe)
+	        throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException,
+	        SecurityException {
 
 		Object obj = cache.get(chave);
 		if (obj == null) {
@@ -64,8 +63,8 @@ public class FabricaObjetoLocal {
 	 *
 	 * @return objeto instanciado
 	 */
-	public final static Object getInstancia(String classe) throws ClassNotFoundException, InstantiationException,
-			IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public final static Object getInstancia(String classe) throws ClassNotFoundException, InstantiationException, IllegalAccessException,
+	        InvocationTargetException, NoSuchMethodException, SecurityException {
 		return getInstancia(Thread.currentThread().getContextClassLoader(), classe);
 	}
 
@@ -77,9 +76,8 @@ public class FabricaObjetoLocal {
 	 *
 	 * @return objeto instanciado
 	 */
-	public final static Object getInstancia(ClassLoader carregador, String classe)
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException,
-			NoSuchMethodException, SecurityException {
+	public final static Object getInstancia(ClassLoader carregador, String classe) throws ClassNotFoundException, InstantiationException,
+	        IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		return carregador.loadClass(classe).getDeclaredConstructor().newInstance();
 	}
 }

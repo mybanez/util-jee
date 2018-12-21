@@ -16,11 +16,11 @@ import meyn.util.beans.AcessoPropriedades;
  */
 @SuppressWarnings("serial")
 public class EntidadeMapeada extends HashMap<String, Object> implements Entidade {
+
 	/**
 	 * Cria uma entidade com as propriedades definidas nesta coleção.
 	 *
-	 * @param clNomesProps
-	 *            nomes das propriedades
+	 * @param clNomesProps nomes das propriedades
 	 */
 	public EntidadeMapeada(Collection<String> clNomesProps) {
 		for (String nome : clNomesProps) {
@@ -28,12 +28,12 @@ public class EntidadeMapeada extends HashMap<String, Object> implements Entidade
 		}
 		put("nomesPropriedades", new ArrayList<Object>(keySet()));
 	}
-	
+
 	public EntidadeMapeada(Map<String, Object> mpProps) {
-        putAll(mpProps);
-        put("nomesPropriedades", new ArrayList<Object>(keySet()));
+		putAll(mpProps);
+		put("nomesPropriedades", new ArrayList<Object>(keySet()));
 	}
-	
+
 	/**
 	 * Retorna os nomes das propriedades da entidade.
 	 */
@@ -73,15 +73,15 @@ public class EntidadeMapeada extends HashMap<String, Object> implements Entidade
 			set(item.getKey(), item.getValue());
 		}
 	}
-	
+
 	@Override
-    public final Object get(String nome) {
-        validarPropriedade(nome);
-        return super.get(nome);
-    }
-    
-    public final void set(String nome, Object valor) {
-        validarPropriedade(nome);
-        put(nome, valor);
-    }
+	public final Object get(String nome) {
+		validarPropriedade(nome);
+		return super.get(nome);
+	}
+
+	public final void set(String nome, Object valor) {
+		validarPropriedade(nome);
+		put(nome, valor);
+	}
 }

@@ -8,11 +8,11 @@ import meyn.util.modelo.*;
  */
 @SuppressWarnings("serial")
 public class ErroCadastro extends ErroModelo {
-    public ErroCadastro(String msg) {
-        super(msg);
-    }
-    
-    public ErroCadastro(String msg, Exception e) {
-        super(msg, e);
-    }
+	public ErroCadastro(String msg) {
+		super(msg);
+	}
+
+	public ErroCadastro(String msg, Exception e) {
+		super(msg, e);
+	}
 }

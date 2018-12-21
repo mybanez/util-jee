@@ -26,7 +26,7 @@ public class FabricaCadastro extends FabricaObjetoModelo {
 		ExtendedClassLoader(ClassLoader cl) {
 			super(cl);
 		}
-		
+
 		protected Package[] getPackages() {
 			return super.getPackages();
 		}
@@ -67,7 +67,7 @@ public class FabricaCadastro extends FabricaObjetoModelo {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <TipoUsuario extends Entidade, TipoEnt extends Entidade> Cadastro<TipoUsuario, TipoEnt> getCadastro(String modelo)
-			throws ErroCadastro {
+	        throws ErroCadastro {
 		String tipo = getMapaCadastros().get(modelo);
 		if (tipo == null) {
 			throw new ErroExecucao("Não existe cadastro definido para o modelo '" + modelo + "'");

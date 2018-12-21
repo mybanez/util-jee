@@ -29,8 +29,7 @@ public abstract class Cache<TipoChave, TipoValor> extends ConcurrentHashMap<Tipo
 	 *
 	 * @return cache mantido no contexto da aplicação
 	 */
-	public final static <TipoChave, TipoValor> Cache<TipoChave, TipoValor> getCache(
-			Class<? extends Cache<TipoChave, TipoValor>> tipo) {
+	public final static <TipoChave, TipoValor> Cache<TipoChave, TipoValor> getCache(Class<? extends Cache<TipoChave, TipoValor>> tipo) {
 		return getCache(ContextoEmMemoria.getContextoCarregador(), tipo);
 	}
 
@@ -45,15 +44,15 @@ public abstract class Cache<TipoChave, TipoValor> extends ConcurrentHashMap<Tipo
 	 */
 	@SuppressWarnings("unchecked")
 	public final static <TipoChave, TipoValor> Cache<TipoChave, TipoValor> getCache(ContextoEmMemoria contexto,
-			Class<? extends Cache<TipoChave, TipoValor>> tipo) {
+	        Class<? extends Cache<TipoChave, TipoValor>> tipo) {
 		String nomeCache = tipo.getName();
 		if (!contexto.containsKey(nomeCache)) {
 			try {
 				Cache<?, ?> cache = (Cache<?, ?>) FabricaObjetoLocal.getInstancia(nomeCache);
 				contexto.put(nomeCache, cache);
 				cache.setContexto(contexto);
-			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException
+			        | NoSuchMethodException | SecurityException e) {
 				throw new ErroExecucao("Erro instanciando cache: " + nomeCache, e);
 			}
 		}
@@ -63,7 +62,7 @@ public abstract class Cache<TipoChave, TipoValor> extends ConcurrentHashMap<Tipo
 	private ContextoEmMemoria contexto;
 	public boolean atualizado = false;
 
-	private Logger logger = LogManager.getLogger(getClass());
+	private Logger logger = LogManager.getLogger();
 
 	protected ContextoEmMemoria getContexto() {
 		return contexto;
@@ -80,18 +79,18 @@ public abstract class Cache<TipoChave, TipoValor> extends ConcurrentHashMap<Tipo
 	public void setAtualizado(boolean atualizado) {
 		this.atualizado = atualizado;
 		if (!atualizado) {
-			logger.debug("cache invalidado");
+			getLogger().debug("cache desatualizado");
 		}
 	}
-	
-	public void invalidar() {
+
+	public void desatualizar() {
 		setAtualizado(false);
 	}
 
 	protected Logger getLogger() {
 		return logger;
 	}
-	
+
 	protected void setLogger(Logger logger) {
 		this.logger = logger;
 	}
@@ -111,8 +110,8 @@ public abstract class Cache<TipoChave, TipoValor> extends ConcurrentHashMap<Tipo
 		String desc = getClass().getName() + '@' + Integer.toHexString(hashCode());
 		sb.append("--- INICIO CACHE: ").append(desc).append(" ---\n");
 		for (Entry<TipoChave, TipoValor> item : itens) {
-			sb.append("Chave ").append(cont).append(":\n").append(item.getKey()).append("\nValor ").append(cont)
-					.append(":\n").append(item.getValue()).append("\n");
+			sb.append("Chave ").append(cont).append(":\n").append(item.getKey()).append("\nValor ").append(cont).append(":\n")
+			        .append(item.getValue()).append("\n");
 			cont++;
 		}
 		sb.append("------ FIM CACHE: ").append(desc).append(" ---");

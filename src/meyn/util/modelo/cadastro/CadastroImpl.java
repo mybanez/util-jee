@@ -13,7 +13,7 @@ import meyn.util.modelo.entidade.Entidade;
  * Suporte para implementações de cadastro.
  */
 public abstract class CadastroImpl<TipoUsuario extends Entidade, TipoEnt extends Entidade> implements Cadastro<TipoUsuario, TipoEnt> {
-	
+
 	private String modelo;
 	private Class<?> tipoEntidade;
 
@@ -21,7 +21,7 @@ public abstract class CadastroImpl<TipoUsuario extends Entidade, TipoEnt extends
 
 	public CadastroImpl() throws ErroCadastro {
 		Type[] tipos = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments();
-		String nomeTipo = tipos[tipos.length-1].getTypeName();
+		String nomeTipo = tipos[tipos.length - 1].getTypeName();
 		try {
 			tipoEntidade = (Class<?>) Class.forName(nomeTipo);
 		} catch (ClassNotFoundException | SecurityException e) {
@@ -32,16 +32,14 @@ public abstract class CadastroImpl<TipoUsuario extends Entidade, TipoEnt extends
 	/**
 	 * Retorna o cadastro associado a este modelo.
 	 *
-	 * @param modelo
-	 *            nome lógico do modelo
+	 * @param modelo nome lógico do modelo
 	 *
 	 * @return cadastro associado a este modelo
 	 *
-	 * @throws ErroCadastro
-	 *             se ocorrer um erro na obtenção do cadastro
+	 * @throws ErroCadastro se ocorrer um erro na obtenção do cadastro
 	 */
 	@SuppressWarnings("unchecked")
-	protected static final <TipoCadastro extends CadastroImpl<?,?>> TipoCadastro getCadastro(String modelo) throws ErroCadastro {
+	protected static final <TipoCadastro extends CadastroImpl<?, ?>> TipoCadastro getCadastro(String modelo) throws ErroCadastro {
 		return (TipoCadastro) FabricaCadastro.getCadastro(modelo);
 	}
 
@@ -86,7 +84,7 @@ public abstract class CadastroImpl<TipoUsuario extends Entidade, TipoEnt extends
 
 	@Override
 	public void excluirTodos(TipoUsuario usuario) throws ErroCadastro {
-		for(TipoEnt ent: consultarTodos(usuario)) {
+		for (TipoEnt ent : consultarTodos(usuario)) {
 			excluir(usuario, ent);
 		}
 	}

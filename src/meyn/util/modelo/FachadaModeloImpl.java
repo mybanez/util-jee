@@ -27,7 +27,7 @@ public abstract class FachadaModeloImpl implements FachadaModelo {
 	 * @throws ErroModelo se ocorrer um erro na obtenção do cadastro
 	 */
 	protected static final <TipoUsuario extends Entidade, TipoEnt extends Entidade> Cadastro<TipoUsuario, TipoEnt> getCadastro(
-			String modelo) throws ErroModelo {
+	        String modelo) throws ErroModelo {
 		return FabricaCadastro.getCadastro(modelo);
 	}
 
@@ -37,8 +37,8 @@ public abstract class FachadaModeloImpl implements FachadaModelo {
 	}
 
 	@Override
-	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> Collection<TipoEnt> consultarTodos(TipoUsuario usuario,
-			String modelo) throws ErroModelo {
+	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> Collection<TipoEnt> consultarTodos(TipoUsuario usuario, String modelo)
+	        throws ErroModelo {
 		return FachadaModeloImpl.<TipoUsuario, TipoEnt>getCadastro(modelo).consultarTodos(usuario);
 	}
 
@@ -48,8 +48,8 @@ public abstract class FachadaModeloImpl implements FachadaModelo {
 	}
 
 	@Override
-	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> TipoEnt consultarPorChavePrimaria(TipoUsuario usuario,
-			String modelo, TipoEnt chave) throws ErroModelo {
+	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> TipoEnt consultarPorChavePrimaria(TipoUsuario usuario, String modelo,
+	        TipoEnt chave) throws ErroModelo {
 		return FachadaModeloImpl.<TipoUsuario, TipoEnt>getCadastro(modelo).consultarPorChavePrimaria(usuario, chave);
 	}
 
@@ -60,7 +60,7 @@ public abstract class FachadaModeloImpl implements FachadaModelo {
 
 	@Override
 	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> TipoEnt incluir(TipoUsuario usuario, String modelo, TipoEnt ent)
-			throws ErroModelo {
+	        throws ErroModelo {
 		return FachadaModeloImpl.<TipoUsuario, TipoEnt>getCadastro(modelo).incluir(usuario, ent);
 	}
 
@@ -71,7 +71,7 @@ public abstract class FachadaModeloImpl implements FachadaModelo {
 
 	@Override
 	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> TipoEnt alterar(TipoUsuario usuario, String modelo, TipoEnt ent)
-			throws ErroModelo {
+	        throws ErroModelo {
 		return FachadaModeloImpl.<TipoUsuario, TipoEnt>getCadastro(modelo).alterar(usuario, ent);
 	}
 
@@ -92,7 +92,7 @@ public abstract class FachadaModeloImpl implements FachadaModelo {
 
 	@Override
 	public <TipoUsuario extends Entidade, TipoEnt extends Entidade> void excluir(TipoUsuario usuario, String modelo, TipoEnt ent)
-			throws ErroModelo {
+	        throws ErroModelo {
 		FachadaModeloImpl.<TipoUsuario, TipoEnt>getCadastro(modelo).excluir(usuario, ent);
 	}
 }

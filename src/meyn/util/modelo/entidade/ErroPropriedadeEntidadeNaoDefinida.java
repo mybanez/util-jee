@@ -8,7 +8,7 @@ import meyn.util.ErroExecucao;
  */
 @SuppressWarnings("serial")
 public class ErroPropriedadeEntidadeNaoDefinida extends ErroExecucao {
-    public ErroPropriedadeEntidadeNaoDefinida(String msg) {
-        super(msg);
-    }
+	public ErroPropriedadeEntidadeNaoDefinida(String msg) {
+		super(msg);
+	}
 }
